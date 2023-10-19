@@ -1,6 +1,4 @@
-using System.IO.Pipes;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class CameraMoveScript : MonoBehaviour
 {

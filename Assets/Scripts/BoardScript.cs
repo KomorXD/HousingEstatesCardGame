@@ -16,7 +16,10 @@ public class BoardScript : MonoBehaviour
         sqr.transform.localScale = Vector3.one;
         sqr.transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
 
-        _grid.Add(sqr);
+        _grid = new List<GameObject>
+        {
+            sqr
+        };
     }
     
     void Update()
