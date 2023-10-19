@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _cardPrefab;
     [SerializeField] private List<CardData> _playerCards;
     [SerializeField] private List<CardData> _availableCards;
 
@@ -12,7 +10,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        // _env = GameObject.FindGameObjectWithTag("EnvTag");
+        _env = GameObject.FindGameObjectWithTag("EnvTag");
 
         _availableCards = new List<CardData>
         {
@@ -21,6 +19,14 @@ public class GameManager : MonoBehaviour
             new CardData(CardColor.Spades, CardValue.Eight, new Vector2(2, 1), new()),
             new CardData(CardColor.Clubs, CardValue.Nine, new Vector2(3, 1), new())
         };
+
+        _playerCards.Add(_availableCards[0]);
+
+        GameObject cardPrefab = Resources.Load<GameObject>("Prefabs/Card");
+
+        cardPrefab = Instantiate(cardPrefab, _env.transform);
+        cardPrefab.name = $"Card_{_playerCards[0].Color.ToString()}_{_playerCards[0].Value.ToString()}";
+        cardPrefab.GetComponent<CardScript>().Init(_playerCards[0]);
     }
     
     void Update()

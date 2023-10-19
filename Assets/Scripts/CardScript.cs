@@ -36,11 +36,17 @@ public class CardScript : MonoBehaviour
 {
     public CardData CardData;
 
+    private GameObject _prefab;
+
     public void Init(CardData data)
     {
+        GameObject env = GameObject.FindGameObjectWithTag("EnvTag");
+
         CardData = data;
 
-        // Tesktura, modele
+        _prefab = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
+        _prefab = Instantiate(_prefab, env.transform);
+        _prefab.name = $"Model_{CardData.Color.ToString()}_{CardData.Value.ToString()}";
     }
 
     void Start()
