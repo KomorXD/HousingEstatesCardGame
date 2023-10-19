@@ -7,12 +7,14 @@ public struct CardData
 {
     public CardColor Color;
     public CardValue Value;
+    public Vector2 Size;
     public List<CardParameter> Parameters;
 
-    public CardData(CardColor color, CardValue value, List<CardParameter> parameters)
+    public CardData(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
     {
         Color = color;
         Value = value;
+        Size = size;
         Parameters = parameters;
     }
 }
