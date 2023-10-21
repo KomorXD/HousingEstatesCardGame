@@ -8,6 +8,8 @@ public class BoardScript : MonoBehaviour
     [SerializeField] private int _width  = 2;
     [SerializeField] private int _height = 2;
 
+    private GameObject _card;
+
     private List<GameObject> _grid;
 
     void Start()
@@ -20,24 +22,22 @@ public class BoardScript : MonoBehaviour
         
     }
 
-    void PopulateBoard()
+    private void PopulateBoard()
     {
         GameObject _env = GameObject.FindGameObjectWithTag("BoardTag");
-        GameObject tile = GameObject.CreatePrimitive(PrimitiveType.Quad);
+        GameObject tile = Resources.Load<GameObject>("Prefabs/Tile");
         _grid = new List<GameObject>();
         int offset = 2;
 
-        tile.transform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
-        for (int i = 0; i < 2; i++)
+        tile.transform.localScale = offset * Vector3.one;
+        for (int i = 0; i < _width; i++)
         {
-            for (int j = 0; j < 2; j++)
+            for (int j = 0; j < _height; j++)
             {
                 GameObject sqr = Instantiate(tile, _env.transform);
                 sqr.transform.position = new Vector3(offset * i, 0.0f, offset * j);
-                sqr.transform.localScale = offset * Vector3.one;
                 _grid.Add(sqr);
             }
         }
-        Destroy( tile );
     }
 }

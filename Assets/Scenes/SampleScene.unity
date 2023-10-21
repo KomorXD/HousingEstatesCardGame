@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 969210516}
   m_Layer: 0
   m_Name: Board
-  m_TagString: Untagged
+  m_TagString: BoardTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -426,7 +426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e26b94a0a17036243a8c76140ba9056f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cardPrefab: {fileID: 5648155403359350935, guid: 235de6bc42cd32644b283a6b78b5528e, type: 3}
   _playerCards: []
   _availableCards: []
 --- !u!4 &2075269996
