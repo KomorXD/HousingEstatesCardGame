@@ -17,6 +17,8 @@ public class TileScript : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (_card)
+            return;
         DisplayCard(cardToDisplay);
     }
 
