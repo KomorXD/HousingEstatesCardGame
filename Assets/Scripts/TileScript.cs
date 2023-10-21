@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class TileScript : MonoBehaviour
 {
+    public GameObject cardToDisplay;
+
     private GameObject _card;
     private Vector3 _cardPosition;
-
-    public GameObject cardToDisplay;
+    private MeshRenderer _meshRenderer;
 
     private void Start()
     {
         _cardPosition = transform.position;
         _cardPosition.y += 0.01f;
+        _meshRenderer = GetComponent<MeshRenderer>();
     }
 
     private void OnMouseDown()
@@ -28,5 +30,15 @@ public class TileScript : MonoBehaviour
         _card = card;
         _card.transform.position = _cardPosition;
         _card = Instantiate(card, _env.transform);
+    }
+
+    private void OnMouseEnter()
+    {
+        _meshRenderer.material.color = Color.cyan;
+    }
+
+    private void OnMouseExit()
+    {
+        _meshRenderer.material.color = Color.white;
     }
 }
