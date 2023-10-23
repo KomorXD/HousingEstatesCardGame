@@ -8,8 +8,6 @@ public class BoardScript : MonoBehaviour
     [SerializeField] private int _width  = 2;
     [SerializeField] private int _height = 2;
 
-    private GameObject _card;
-
     private List<GameObject> _grid;
 
     void Start()
@@ -36,6 +34,7 @@ public class BoardScript : MonoBehaviour
             {
                 GameObject sqr = Instantiate(tile, _env.transform);
                 sqr.transform.position = new Vector3(offset * i, 0.0f, offset * j);
+                sqr.name = $"Tile_{i}_{j}";
                 _grid.Add(sqr);
             }
         }

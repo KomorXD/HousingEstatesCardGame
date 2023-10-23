@@ -34,19 +34,34 @@ public struct CardParameter
 
 public class CardScript : MonoBehaviour
 {
-    public CardData CardData;
+    public CardData cardData;
 
-    private GameObject _prefab;
+    private GameObject _building;
 
     public void Init(CardData data)
     {
-        GameObject env = GameObject.FindGameObjectWithTag("EnvTag");
+        cardData = data;
 
-        CardData = data;
+        _building = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
+        _building.name = $"Model_{cardData.Color.ToString()}_{cardData.Value.ToString()}";
+    }
 
-        _prefab = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
-        _prefab = Instantiate(_prefab, env.transform);
-        _prefab.name = $"Model_{CardData.Color.ToString()}_{CardData.Value.ToString()}";
+    public void Spawn(GameObject card, Vector3 position)
+    {
+        GameObject env = GameObject.FindGameObjectWithTag("BoardTag");
+        position.y += 0.01f;
+        card.transform.position = position;
+        _building.transform.position = position;
+        _building.transform.localScale = 0.1f * Vector3.one;
+        GameObject newCard = Instantiate(card, env.transform);
+       
+        Texture2D texture2D = Resources.Load<Texture2D>($"Textures/Cards/{cardData.Value.ToString()}{cardData.Color.ToString()}");
+        MeshRenderer meshRenderer = newCard.GetComponent<MeshRenderer>();
+        if (meshRenderer != null && texture2D)
+        {
+            meshRenderer.material.mainTexture = texture2D;
+        }
+        Instantiate(_building, env.transform);
     }
 
     void Start()

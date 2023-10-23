@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class TileScript : MonoBehaviour
 {
-    public GameObject cardToDisplay;
-
     private GameObject _card;
     private Vector3 _cardPosition;
     private MeshRenderer _meshRenderer;
@@ -21,15 +19,18 @@ public class TileScript : MonoBehaviour
     {
         if (_card)
             return;
-        DisplayCard(cardToDisplay);
+
+        GameObject card = GameManager.Instance.GetPlayerCard();
+        if (card == null)
+            return;
+        DisplayCard(card);
+        GameManager.Instance.DrawRandomCard();
     }
 
     public void DisplayCard(GameObject card)
     {
-        GameObject _env = GameObject.FindGameObjectWithTag("BoardTag");
         _card = card;
-        _card.transform.position = _cardPosition;
-        _card = Instantiate(card, _env.transform);
+        _card.GetComponent<CardScript>().Spawn(card, transform.position);
     }
 
     private void OnMouseEnter()
