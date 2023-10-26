@@ -1,45 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+//! Class responsible for editor camera controls
 public class EditorCameraMovement : ICameraMovement
 {
-    private Transform cameraTransform;
-    private float rotX;
-    private float rotY;
-    private float sensX = 1.0f;
-    private float sensY = 1.0f;
-    private float slerpVal = 0.25f;
-    private float cameraDistance = 10.0f;
+    private CameraMoveScript cms;
 
-    private Quaternion _cameraRot;
-
-    public EditorCameraMovement(Transform cameraTransform)
+    //! Initializes internal state
+    public EditorCameraMovement(CameraMoveScript cms)
     {
+        this.cms = cms;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        this.cameraTransform = cameraTransform;
-        cameraDistance = Vector3.Distance(Vector3.zero, cameraTransform.position);
+        cms.cameraDistanceFromOrigin = Vector3.Distance(Vector3.zero, cms.transform.position);
+        cms.transform.LookAt(Vector3.zero);
     }
 
+    //! Checks for mouse input and updates camera ccordingly
     public void OnUpdate()
     {
         if (Input.GetMouseButton(1))
         {
-            rotX += -Input.GetAxis("Mouse Y") * sensX;
-            rotY += Input.GetAxis("Mouse X") * sensY;
+            cms.rotationX += -Input.GetAxis("Mouse Y") * cms.sensitivityX;
+            cms.rotationY += Input.GetAxis("Mouse X") * cms.sensitivityY;
         }
 
-        cameraTransform.position += cameraTransform.forward * 1.0f * Input.mouseScrollDelta.y;
-        cameraDistance = Vector3.Distance(Vector3.zero, cameraTransform.position);
+        cms.rotationX = Mathf.Clamp(cms.rotationX, -90, 90);
+        
+        cms.holderTransform.position += 1.0f * Input.mouseScrollDelta.y * cms.transform.forward;
+        cms.cameraDistanceFromOrigin = Vector3.Distance(Vector3.zero, cms.transform.position);
 
-        Vector3 dir = new Vector3(0, 0, -cameraDistance);
-        Quaternion newQ = Quaternion.Euler(rotX, rotY, 0);
+        Vector3 dir = new Vector3(0, 0, -cms.cameraDistanceFromOrigin);
+        Quaternion newQ = Quaternion.Euler(cms.rotationX, cms.rotationY, 0);
+        Vector3 newHolderPos = cms.cameraRot * dir;
 
-        _cameraRot = Quaternion.Slerp(_cameraRot, newQ, slerpVal);
-        cameraTransform.position = _cameraRot * dir;
-        cameraTransform.LookAt(Vector3.zero);
+        cms.cameraRot = Quaternion.Slerp(cms.cameraRot, newQ, cms.editorCameraSlerpValue * Time.deltaTime);
+        cms.holderTransform.position = Vector3.Lerp(cms.holderTransform.position, newHolderPos, cms.editorCameraLerpValue * Time.deltaTime);
+        cms.transform.LookAt(Vector3.zero);
     }
-
 }

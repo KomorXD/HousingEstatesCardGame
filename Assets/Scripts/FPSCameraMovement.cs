@@ -1,38 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+//! Class responsible for FPS camera controls
 public class FPSCameraMovement : ICameraMovement
 {
-    private Transform cameraTransform;
-    private Transform holderTransform;
+    private CameraMoveScript cms;
 
-    private float rotX;
-    private float sensX = 1.0f;
-    private float sensY = 1.0f;
-
-    public FPSCameraMovement(Transform cameraTransform, Transform holderTransform)
+    //! Initializes an object
+    public FPSCameraMovement(CameraMoveScript cms)
     {
+        this.cms = cms;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        this.cameraTransform = cameraTransform;
-        this.holderTransform = holderTransform;
     }
 
+    //! Checks for mouse and keyboard input and updates camera accordingly
     public void OnUpdate()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-        rotX -= mouseY;
-        rotX = Mathf.Clamp(rotX, -90, 90);
+        float mouseX = Input.GetAxis("Mouse X") * cms.sensitivityX;
+        float mouseY = Input.GetAxis("Mouse Y") * cms.sensitivityY;
 
-        cameraTransform.localRotation = Quaternion.Euler(rotX, 0, 0);
-        holderTransform.Rotate(Vector3.up * mouseX);
+        cms.rotationX -= mouseY;
+        cms.rotationX = Mathf.Clamp(cms.rotationX, -90, 90);
+        cms.rotationY += mouseX;
+        cms.cameraRot = Quaternion.Euler(cms.rotationX, cms.rotationY, 0);
+
+        cms.transform.localRotation = Quaternion.Euler(cms.rotationX, 0, 0);
+        cms.holderTransform.Rotate(Vector3.up * mouseX);
 
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
 
-        Vector3 wishMove = holderTransform.right * horizontalInput + holderTransform.forward * verticalInput;
-        holderTransform.position += wishMove.normalized * 5.0f * Time.deltaTime;
+        Vector3 wishMove = cms.holderTransform.right * horizontalInput + cms.holderTransform.forward * verticalInput;
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            wishMove += Vector3.up;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            wishMove -= Vector3.up;
+        }
+
+        cms.holderTransform.position += wishMove.normalized * 15.0f * Time.deltaTime;
     }
 }
