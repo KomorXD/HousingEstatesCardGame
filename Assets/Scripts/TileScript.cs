@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+//! Class responsible for interacting with each of the tile
 public class TileScript : MonoBehaviour
 {
     private GameObject _card;
@@ -15,6 +14,7 @@ public class TileScript : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
     }
 
+    //! Places a new card, if the tile is free
     private void OnMouseDown()
     {
         if (_card)
@@ -27,6 +27,7 @@ public class TileScript : MonoBehaviour
         GameManager.Instance.DrawRandomCard();
     }
 
+    //! Spawns a card on itself
     public void DisplayCard(GameObject card)
     {
         _card = card;

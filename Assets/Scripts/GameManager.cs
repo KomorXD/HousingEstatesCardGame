@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//! Class responsible for managing the game itself, a singleton
 public class GameManager : MonoBehaviour
 {
+    //! Class' instance
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private List<CardData> _playerCards;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    //! Sets up the game, draws random card at the end
     void Start()
     {
         _env = GameObject.FindGameObjectWithTag("EnvTag");
@@ -31,37 +34,66 @@ public class GameManager : MonoBehaviour
 
         DrawRandomCard();
     }
-    
-    void Update()
-    {
-        
-    }
 
+    /**
+     * Adds a new card to the deck
+     * 
+     * \param newCard - new card to add
+     */
     public void AddNewCardToDeck(CardData newCard)
     {
         _availableCards.Add(newCard);
     }
 
+    /**
+     * Construct a new card in place
+     * 
+     * \param color - card's color
+     * \param value - card's value
+     * \param size (DEPRACATED) - card's size
+     * \param parameters - list of card's parameters and values
+     */
     public void ConstructNewCardInDeck(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
     {
         _availableCards.Add(new CardData(color, value, size, parameters));
     }
 
+    /**
+     * Returns card at the given index
+     * 
+     * \param index - index
+     * \returns card
+     */
     public CardData GetCardAt(int index)
     {
         return _availableCards[index];
     }
 
+    /**
+     * Erases card at the given index
+     * 
+     * \param index - index
+     */
     public void EraseCardAt(int index)
     {
         _availableCards.RemoveAt(index);
     }
-
+    /**
+     * Updates card at the given index
+     * 
+     * \param index - index
+     * \param card - updated card
+     */
     public void UpdateCardAt(int index, CardData card)
     {
         _availableCards[index] = card;
     }
 
+    /**
+     * Returns currently selected card
+     * 
+     * \returns held card
+     */
     public GameObject GetPlayerCard()
     {
         if(noCards)
@@ -76,6 +108,11 @@ public class GameManager : MonoBehaviour
         return cardToPlay;
     }
 
+    /**
+     * Draws a random card from the deck, if there are any left
+     * 
+     * \returns a card or null if none is available
+     */
     public CardData? DrawRandomCard()
     {
         if (_availableCards.Count == 0)

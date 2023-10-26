@@ -1,3 +1,4 @@
+//! An enum representing card values
 public enum CardValue
 {
     Two,
@@ -16,6 +17,7 @@ public enum CardValue
     Joker
 }
 
+//! An enum representing card colors
 public enum CardColor
 {
     Hearts, // Kier
@@ -24,6 +26,7 @@ public enum CardColor
     Diamonds // Karo
 }
 
+//! Categories defined for each card
 public enum ParameterCategory
 {
     FloorRatio,
