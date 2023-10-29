@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //! Class responsible for managing the game itself, a singleton
 public class GameManager : MonoBehaviour
@@ -7,12 +8,12 @@ public class GameManager : MonoBehaviour
     //! Class' instance
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private List<CardData> _playerCards;
-    [SerializeField] private CardData _playerCard;
-    [SerializeField] private List<CardData> _availableCards;
+    [SerializeField] private int availableBombs;
+    [SerializeField] private CardData? selectedCard;
+    [SerializeField] private List<CardData> cardsDeck;
 
-    private GameObject _env;
-    private bool noCards = false;
+    public int AvailableBombs { get { return availableBombs; } set { availableBombs = value; } }
+    public CardData? SelectedCard => selectedCard;
 
     private void Awake()
     {
@@ -22,9 +23,10 @@ public class GameManager : MonoBehaviour
     //! Sets up the game, draws random card at the end
     void Start()
     {
-        _env = GameObject.FindGameObjectWithTag("EnvTag");
+        availableBombs = 5;
+        selectedCard = null;
 
-        _availableCards = new List<CardData>
+        cardsDeck = new List<CardData>
         {
             new CardData(CardColor.Hearts, CardValue.Queen, new Vector2(3, 2), new()),
             new CardData(CardColor.Diamonds, CardValue.King, new Vector2(2, 2), new()),
@@ -42,7 +44,7 @@ public class GameManager : MonoBehaviour
      */
     public void AddNewCardToDeck(CardData newCard)
     {
-        _availableCards.Add(newCard);
+        cardsDeck.Add(newCard);
     }
 
     /**
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
      */
     public void ConstructNewCardInDeck(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
     {
-        _availableCards.Add(new CardData(color, value, size, parameters));
+        cardsDeck.Add(new CardData(color, value, size, parameters));
     }
 
     /**
@@ -66,7 +68,7 @@ public class GameManager : MonoBehaviour
      */
     public CardData GetCardAt(int index)
     {
-        return _availableCards[index];
+        return cardsDeck[index];
     }
 
     /**
@@ -76,7 +78,7 @@ public class GameManager : MonoBehaviour
      */
     public void EraseCardAt(int index)
     {
-        _availableCards.RemoveAt(index);
+        cardsDeck.RemoveAt(index);
     }
     /**
      * Updates card at the given index
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
      */
     public void UpdateCardAt(int index, CardData card)
     {
-        _availableCards[index] = card;
+        cardsDeck[index] = card;
     }
 
     /**
@@ -96,16 +98,16 @@ public class GameManager : MonoBehaviour
      */
     public GameObject GetPlayerCard()
     {
-        if(noCards)
+        if(selectedCard == null)
             return null;
 
-        if (_availableCards.Count == 0 && noCards == false)
-            noCards = true; 
+        GameObject cardObject = Resources.Load<GameObject>("Prefabs/Card");
 
-        GameObject cardToPlay = Resources.Load<GameObject>("Prefabs/Card");
-        cardToPlay.name = $"Card_{_playerCard.Color.ToString()}_{_playerCard.Value.ToString()}";
-        cardToPlay.GetComponent<CardScript>().Init(_playerCard);
-        return cardToPlay;
+        cardObject.name = $"Card_{selectedCard?.Color.ToString()}_{selectedCard?.Value.ToString()}";
+        cardObject.GetComponent<CardScript>().Init((CardData)selectedCard);
+        selectedCard = null;
+
+        return cardObject;
     }
 
     /**
@@ -113,15 +115,18 @@ public class GameManager : MonoBehaviour
      * 
      * \returns a card or null if none is available
      */
-    public CardData? DrawRandomCard()
+    public void DrawRandomCard()
     {
-        if (_availableCards.Count == 0)
-            return null;
+        int randomIdx = Random.Range(0, cardsDeck.Count);
 
-        int xd = Random.Range(0, _availableCards.Count);
-        CardData card = _availableCards[xd];
-        _availableCards.RemoveAt(xd);
-        _playerCard = card;
-        return card;
+        if(randomIdx < 0 || randomIdx >= cardsDeck.Count)
+        {
+            return;
+        }
+
+        CardData card = cardsDeck[randomIdx];
+
+        cardsDeck.RemoveAt(randomIdx);
+        selectedCard = card;
     }
 }
