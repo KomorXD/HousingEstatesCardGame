@@ -49,17 +49,18 @@ public struct CardParameter
 public class CardScript : MonoBehaviour
 {
     //! Card's data
-    public CardData cardData;
-
-    private GameObject _building;
+    private CardData cardData;
+    
+    private GameObject buildingPrefab;
+    private GameObject buildingObject;
 
     //! Intializes data and grabs an apropriate model, based on card's data
     public void Init(CardData data)
     {
         cardData = data;
 
-        _building = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
-        _building.name = $"Model_{cardData.Color.ToString()}_{cardData.Value.ToString()}";
+        buildingPrefab = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
+        buildingPrefab.name = $"Model_{cardData.Color}_{cardData.Value}";
     }
 
     //! Spawns card and it's model
@@ -67,20 +68,16 @@ public class CardScript : MonoBehaviour
     {
         GameObject env = GameObject.FindGameObjectWithTag("BoardTag");
 
-        position.y += 0.01f;
-        card.transform.position = position;
-        _building.transform.position = position;
-        _building.transform.localScale = 0.1f * Vector3.one;
-
-        GameObject newCard = Instantiate(card, env.transform);
-        Texture2D texture2D = Resources.Load<Texture2D>($"Textures/Cards/{cardData.Value.ToString()}{cardData.Color.ToString()}");
-        MeshRenderer meshRenderer = newCard.GetComponent<MeshRenderer>();
-
-        if (meshRenderer != null && texture2D)
-        {
-            meshRenderer.material.mainTexture = texture2D;
-        }
+        buildingPrefab.transform.position = position;
+        buildingPrefab.transform.localScale = 0.1f * Vector3.one;
         
-        Instantiate(_building, env.transform);
+        buildingObject = Instantiate(buildingPrefab, env.transform);
+        buildingObject.name = $"Model_{cardData.Color}_{cardData.Value}";
+        buildingObject.layer = LayerMask.NameToLayer("CardBuilding");
+    }
+    
+    public void Despawn()
+    {
+        DestroyImmediate(buildingObject, true);
     }
 }

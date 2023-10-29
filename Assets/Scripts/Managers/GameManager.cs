@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 //! Class responsible for managing the game itself, a singleton
 public class GameManager : MonoBehaviour
@@ -11,9 +10,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int availableBombs;
     [SerializeField] private CardData? selectedCard;
     [SerializeField] private List<CardData> cardsDeck;
+    [SerializeField] private bool bombsSelected;
 
-    public int AvailableBombs { get { return availableBombs; } set { availableBombs = value; } }
+    public int AvailableBombs => availableBombs;
     public CardData? SelectedCard => selectedCard;
+    public int CardsLeft => cardsDeck.Count;
+    public bool BombsSelected { get { return bombsSelected; } set { bombsSelected = value; } }
 
     private void Awake()
     {
@@ -35,6 +37,23 @@ public class GameManager : MonoBehaviour
         };
 
         DrawRandomCard();
+        GameHUDManager.Instance.Init();
+    }
+
+    private void Update()
+    {
+        if(!bombsSelected)
+        {
+            return;
+        }
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        bool hitDestructable = Physics.Raycast(ray, out RaycastHit hit) && hit.transform.gameObject.layer == LayerMask.NameToLayer("CardBuilding");
+
+        if (hitDestructable && Input.GetMouseButtonDown(0))
+        {
+            // destroy the building
+        }
     }
 
     /**
@@ -98,14 +117,10 @@ public class GameManager : MonoBehaviour
      */
     public GameObject GetPlayerCard()
     {
-        if(selectedCard == null)
-            return null;
-
-        GameObject cardObject = Resources.Load<GameObject>("Prefabs/Card");
-
-        cardObject.name = $"Card_{selectedCard?.Color.ToString()}_{selectedCard?.Value.ToString()}";
-        cardObject.GetComponent<CardScript>().Init((CardData)selectedCard);
         selectedCard = null;
+        
+        GameObject cardObject = Resources.Load<GameObject>("Prefabs/Card");
+        GameHUDManager.Instance.UpdateUI();
 
         return cardObject;
     }
