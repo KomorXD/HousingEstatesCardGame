@@ -52,7 +52,13 @@ public class GameManager : MonoBehaviour
 
         if (hitDestructable && Input.GetMouseButtonDown(0))
         {
-            // destroy the building
+            GameObject hitBuilding = hit.transform.gameObject;
+            GameObject hitBuildingTile = hitBuilding.transform.parent.gameObject;
+            TileScript hitTileScript = hitBuildingTile.GetComponent<TileScript>();
+
+            hitTileScript.card.GetComponent<CardScript>().Despawn();
+            hitTileScript.card = null;
+            hitTileScript.placedBuilding = null;
         }
     }
 
@@ -117,12 +123,31 @@ public class GameManager : MonoBehaviour
      */
     public GameObject GetPlayerCard()
     {
-        selectedCard = null;
-        
+        if(selectedCard == null)
+        {
+            return null;
+        }
+
         GameObject cardObject = Resources.Load<GameObject>("Prefabs/Card");
+        cardObject.GetComponent<CardScript>().Init((CardData)selectedCard);
+        selectedCard = null;
+
         GameHUDManager.Instance.UpdateUI();
 
         return cardObject;
+    }
+
+    public CardData? GetPickedCard()
+    {
+        if(selectedCard == null)
+        {
+            return null;
+        }
+
+        CardData? ret = selectedCard;
+        selectedCard = null;
+
+        return ret;
     }
 
     /**
