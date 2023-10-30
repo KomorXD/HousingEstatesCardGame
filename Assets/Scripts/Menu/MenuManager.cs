@@ -18,7 +18,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button playButton;
 
     [Header("Inputs")]
-    [SerializeField] private InputTextScript nickInput;
+    [SerializeField] private TMP_InputField nickInput;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour
     {
         gameInputPanel.GetComponent<MenuPanelAnimator>().Right();
         startMenuPanel.GetComponent<MenuPanelAnimator>().Right();
-        nickInput.ClearText();
+        nickInput.text = string.Empty;
     }
 
     private void OnStartButtonClick()
@@ -60,6 +60,9 @@ public class MenuManager : MonoBehaviour
 
     private void PlayButtonClick()
     {
-        Debug.Log(nickInput.GetText());
+        if (nickInput.text.Length < 1)
+            return;
+        Debug.Log(nickInput.text.Length);
+        Debug.Log(nickInput.text);
     }
 }
