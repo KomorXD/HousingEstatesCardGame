@@ -1457,6 +1457,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c47c22b139a12f4ca65b57816284bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationDeltaY: 10
+  moveAnimationDuration: 0.25
+  animationScale: 0.75
+  scaleAnimationDuration: 0.1
 --- !u!1 &2075269994
 GameObject:
   m_ObjectHideFlags: 0
