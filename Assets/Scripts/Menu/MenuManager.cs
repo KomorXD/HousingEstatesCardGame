@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button backButton;
+    [SerializeField] private Button playButton;
 
     [Header("Inputs")]
     [SerializeField] private InputTextScript nickInput;
@@ -34,6 +35,7 @@ public class MenuManager : MonoBehaviour
         startButton.onClick.AddListener(OnStartButtonClick);
         quitButton.onClick.AddListener(OnQuitButtonClick);
         backButton.onClick.AddListener(BackButtonClick);
+        playButton.onClick.AddListener(PlayButtonClick);
     }
 
     private void BackButtonClick()
@@ -54,5 +56,10 @@ public class MenuManager : MonoBehaviour
         gameInputPanel.SetActive(false);
         Application.Quit();
         Debug.Log("app closed");
+    }
+
+    private void PlayButtonClick()
+    {
+        Debug.Log(nickInput.GetText());
     }
 }
