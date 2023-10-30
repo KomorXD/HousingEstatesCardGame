@@ -51,29 +51,28 @@ public class CardScript : MonoBehaviour
     //! Card's data
     private CardData cardData;
     
-    private GameObject buildingPrefab;
     private GameObject buildingObject;
 
     //! Intializes data and grabs an apropriate model, based on card's data
     public void Init(CardData data)
     {
         cardData = data;
-
-        buildingPrefab = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
-        buildingPrefab.name = $"Model_{cardData.Color}_{cardData.Value}";
     }
 
     //! Spawns card and it's model
-    public void Spawn(GameObject card, Vector3 position)
+    public GameObject PlaceBuilding(Vector3 position)
     {
-        GameObject env = GameObject.FindGameObjectWithTag("BoardTag");
-
+        GameObject buildingPrefab = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
+        
+        buildingPrefab.name = $"Model_{cardData.Color}_{cardData.Value}";
         buildingPrefab.transform.position = position;
         buildingPrefab.transform.localScale = 0.1f * Vector3.one;
         
-        buildingObject = Instantiate(buildingPrefab, env.transform);
+        buildingObject = Instantiate(buildingPrefab);
         buildingObject.name = $"Model_{cardData.Color}_{cardData.Value}";
         buildingObject.layer = LayerMask.NameToLayer("CardBuilding");
+
+        return buildingObject;
     }
     
     public void Despawn()
