@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button quitButton;
     [SerializeField] private Button backButton;
 
+    [Header("Inputs")]
+    [SerializeField] private InputTextScript nickInput;
 
     private void Awake()
     {
@@ -37,6 +40,7 @@ public class MenuManager : MonoBehaviour
     {
         gameInputPanel.GetComponent<MenuPanelAnimator>().Right();
         startMenuPanel.GetComponent<MenuPanelAnimator>().Right();
+        nickInput.ClearText();
     }
 
     private void OnStartButtonClick()

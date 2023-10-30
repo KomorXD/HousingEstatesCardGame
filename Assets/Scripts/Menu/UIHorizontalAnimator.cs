@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(RectTransform))]
-public class UIAnimator : MonoBehaviour
+public class UIHorizontalAnimator : MonoBehaviour
 {
     [SerializeField] private Ease easeType;
     [SerializeField] private Vector3 finalPosition;
