@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
@@ -62,6 +63,10 @@ public class MenuManager : MonoBehaviour
     {
         if (nickInput.text.Length < 1)
             return;
+
+        PlayerPrefs.SetString("nickname", nickInput.text);
+        SceneManager.LoadSceneAsync("SampleScene", LoadSceneMode.Single);
+
         Debug.Log(nickInput.text.Length);
         Debug.Log(nickInput.text);
     }
