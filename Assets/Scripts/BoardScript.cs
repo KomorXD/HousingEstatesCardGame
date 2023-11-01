@@ -1,17 +1,17 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 //! Class responsible for creating a board
 public class BoardScript : MonoBehaviour
 {
+    private Vector3 boardCenter;
+    public Vector3 BoardCenter => boardCenter;
+    
     //! Dimension X of the board
     [SerializeField] private int _width  = 2;
     //! Dimension Y of the board
     [SerializeField] private int _height = 2;
-
-    private Vector3 boardCenter;
+    
     private Vector3 boardSize;
     private Vector3 tileSize;
     private GameObject tilePrefab;
