@@ -49,7 +49,7 @@ public struct CardParameter
 public class CardScript : MonoBehaviour
 {
     //! Card's data
-    private CardData cardData;
+    [SerializeField] private CardData cardData;
     public CardData Data { get { return cardData; } }
     
     private GameObject buildingObject;
