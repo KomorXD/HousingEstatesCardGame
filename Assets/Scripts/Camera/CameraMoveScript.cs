@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 //! Class responsible for camera controls and properties
@@ -6,9 +7,6 @@ public class CameraMoveScript : MonoBehaviour
     [Header("Settings")]
     //! Parent body's transform
     public Transform holderTransform;
-
-    //! Current camera rotation in Quaternion form
-    public Quaternion cameraRot;
 
     //! Player speed
     public float speed = 15.0f;
@@ -21,12 +19,6 @@ public class CameraMoveScript : MonoBehaviour
 
     //! Multiplier by which scroll input gets magnified
     public float scrollMultiplier = 10.0f;
-
-    //! Current X rotation
-    public float rotationX;
-
-    //! Current Y rotation
-    public float rotationY;
 
     //! Sensitivity over X axis
     public float sensitivityX = 1.0f;
@@ -42,6 +34,15 @@ public class CameraMoveScript : MonoBehaviour
 
     //! Camera's position Lerp value
     public float editorCameraLerpValue = 15.0f;
+
+    //! Current X rotation
+    [NonSerialized] public float rotationX;
+
+    //! Current Y rotation
+    [NonSerialized] public float rotationY;
+
+    //! Current camera rotation in Quaternion form
+    [NonSerialized] public Quaternion cameraRot;
 
     [SerializeField] private ICameraMovement cameraMoveMode;
     public ICameraMovement CameraMode { get { return cameraMoveMode; } set { cameraMoveMode = value; } }
