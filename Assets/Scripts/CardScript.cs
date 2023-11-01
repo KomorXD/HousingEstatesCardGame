@@ -50,6 +50,7 @@ public class CardScript : MonoBehaviour
 {
     //! Card's data
     private CardData cardData;
+    public CardData Data { get { return cardData; } }
     
     private GameObject buildingObject;
 
@@ -68,7 +69,7 @@ public class CardScript : MonoBehaviour
         buildingPrefab.transform.position = position;
         buildingPrefab.transform.localScale = 0.1f * Vector3.one;
         
-        buildingObject = Instantiate(buildingPrefab);
+        buildingObject = Instantiate(buildingPrefab, gameObject.transform);
         buildingObject.name = $"Model_{cardData.Color}_{cardData.Value}";
         buildingObject.layer = LayerMask.NameToLayer("CardBuilding");
 

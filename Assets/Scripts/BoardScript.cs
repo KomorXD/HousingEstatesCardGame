@@ -22,7 +22,7 @@ public class BoardScript : MonoBehaviour
     private void PopulateBoard()
     {
         GameObject _env = GameObject.FindGameObjectWithTag("BoardTag");
-        GameObject tile = Resources.Load<GameObject>("Prefabs/Tile");
+        GameObject tile = Resources.Load<GameObject>("Prefabs/BoardTile");
         _grid = new List<GameObject>();
 
         float sizeX = tile.transform.localScale.x;
