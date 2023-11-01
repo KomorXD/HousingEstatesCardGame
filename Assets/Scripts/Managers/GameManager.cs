@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
     }
 
     //! Sets up the game, draws random card at the end
-    private void Start()
+    void Start()
     {
         gameState = new MainState(this);
     }
