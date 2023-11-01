@@ -3,12 +3,20 @@ using UnityEngine;
 //! Class responsible for interacting with each of the tile
 public class TileScript : MonoBehaviour
 {
-    // public GameObject placedCard;
-
-    public GameObject card;
-    public GameObject placedBuilding;
-    
+    private GameObject placedCard;
     private MeshRenderer meshRenderer;
+
+    public void ClearTile()
+    {
+        if (placedCard == null)
+        {
+            return;
+        }
+
+        placedCard.GetComponent<CardScript>().Despawn();
+        DestroyImmediate(placedCard, true);
+        placedCard = null;
+    }
 
     private void Awake()
     {
@@ -19,20 +27,24 @@ public class TileScript : MonoBehaviour
     private void OnMouseDown()
     {
         // Trying to place a card on top of another
-        if (placedBuilding)
+        if (placedCard)
         {
             return;
         }
 
-        card = GameManager.Instance.GetPlayerCard();
+        placedCard = GameManager.Instance.GetPlayerCard();
 
-        if (card == null)
+        if (placedCard == null)
         {
             return;
         }
 
-        placedBuilding = card.GetComponent<CardScript>().PlaceBuilding(transform.position);
-        placedBuilding.transform.parent = gameObject.transform;
+        placedCard = Instantiate(placedCard);
+        
+        CardData data = placedCard.GetComponent<CardScript>().Data;
+        placedCard.name = $"Card_{data.Color}_{data.Value}";
+        placedCard.transform.parent = gameObject.transform;
+        placedCard.GetComponent<CardScript>().PlaceBuilding(transform.position + Vector3.up * transform.localScale.y / 2.0f);
     }
 
     private void OnMouseEnter()
