@@ -36,4 +36,12 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
     {
         Instance = this;
     }
+
+    public void SetInteractive(bool interactive)
+    {
+        foreach (var manager in hudManagers)
+        {
+            manager.SetInteractive(interactive);
+        }
+    }
 }

@@ -38,6 +38,11 @@ public class CardsHUDManager : MonoBehaviour, IHUDManager
         nextCardButtonText.text = $"Next card ({GameManager.Instance.CardsLeft} left)";
     }
 
+    public void SetInteractive(bool interactive)
+    {
+        gameObject.SetActive(interactive);
+    }
+
     private void Awake()
     {
         selectedCardImage = transform.GetChild(1).GetComponent<Image>();

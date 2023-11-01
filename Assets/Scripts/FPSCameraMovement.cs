@@ -4,11 +4,18 @@ using UnityEngine;
 public class FPSCameraMovement : ICameraMovement
 {
     private CameraMoveScript cms;
+    private CharacterController cc;
+
+    private float velocityY = 0.0f;
 
     //! Initializes an object
     public FPSCameraMovement(CameraMoveScript cms)
     {
         this.cms = cms;
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        cc = player.GetComponent<CharacterController>();
+        cms.holderTransform.position = new(-0.5f, 10.0f, -1.0f);
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -33,16 +40,22 @@ public class FPSCameraMovement : ICameraMovement
 
         Vector3 wishMove = cms.holderTransform.right * horizontalInput + cms.holderTransform.forward * verticalInput;
 
-        if (Input.GetKey(KeyCode.Space))
+        if(wishMove.magnitude > 0.0f)
         {
-            wishMove += Vector3.up;
+            wishMove = wishMove.normalized * cms.speed;
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (!cc.isGrounded)
         {
-            wishMove -= Vector3.up;
+            velocityY += cms.gravityForce * Time.deltaTime;
         }
 
-        cms.holderTransform.position += wishMove.normalized * 15.0f * Time.deltaTime;
+        if(Input.GetKeyDown(KeyCode.Space) && cc.isGrounded)
+        {
+            velocityY = Mathf.Sqrt(-2.0f * cms.gravityForce * cms.jumpHeight);
+        }
+
+        wishMove += velocityY * Vector3.up;
+        cc.Move(wishMove * Time.deltaTime);
     }
 }

@@ -12,8 +12,7 @@ public class EditorCameraMovement : ICameraMovement
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        cms.cameraDistanceFromOrigin = Vector3.Distance(Vector3.zero, cms.transform.position);
+        
         cms.transform.LookAt(Vector3.zero);
     }
 
@@ -28,10 +27,10 @@ public class EditorCameraMovement : ICameraMovement
 
         cms.rotationX = Mathf.Clamp(cms.rotationX, -90, 90);
         
-        cms.holderTransform.position += 1.0f * Input.mouseScrollDelta.y * cms.transform.forward;
+        cms.holderTransform.position += cms.scrollMultiplier * Input.mouseScrollDelta.y * cms.transform.forward;
         cms.cameraDistanceFromOrigin = Vector3.Distance(Vector3.zero, cms.transform.position);
 
-        Vector3 dir = new Vector3(0, 0, -cms.cameraDistanceFromOrigin);
+        Vector3 dir = new(0, 0, -cms.cameraDistanceFromOrigin);
         Quaternion newQ = Quaternion.Euler(cms.rotationX, cms.rotationY, 0);
         Vector3 newHolderPos = cms.cameraRot * dir;
 

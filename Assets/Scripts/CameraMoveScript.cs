@@ -10,6 +10,18 @@ public class CameraMoveScript : MonoBehaviour
     //! Current camera rotation in Quaternion form
     public Quaternion cameraRot;
 
+    //! Player speed
+    public float speed = 15.0f;
+
+    //! Gravity force
+    public float gravityForce = -60.0f;
+
+    //! Force with which player jumps
+    public float jumpHeight = 3.0f;
+
+    //! Multiplier by which scroll input gets magnified
+    public float scrollMultiplier = 10.0f;
+
     //! Current X rotation
     public float rotationX;
 
@@ -23,7 +35,7 @@ public class CameraMoveScript : MonoBehaviour
     public float sensitivityY = 1.0f;
 
     //! Camera's distance from Vector3.zero
-    public float cameraDistanceFromOrigin = 4.0f;
+    public float cameraDistanceFromOrigin = 30.0f;
 
     //! Camera's rotation Slerp value
     public float editorCameraSlerpValue = 15.0f;

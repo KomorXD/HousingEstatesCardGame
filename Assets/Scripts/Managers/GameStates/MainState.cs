@@ -25,7 +25,7 @@ public class MainState : IGameState
         cms.CameraMode = new EditorCameraMovement(cms);
 
         gm.DrawRandomCard();
-        GameHUDManager.Instance.Init();
+        GameHUDManager.Instance.SetInteractive(true);
     }
 
     public void Update()

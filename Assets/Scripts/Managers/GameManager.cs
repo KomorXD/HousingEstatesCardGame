@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        GameHUDManager.Instance.Init();
     }
 
     //! Sets up the game, draws random card at the end

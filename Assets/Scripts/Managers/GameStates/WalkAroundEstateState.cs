@@ -11,7 +11,10 @@ public class WalkAroundEstateState : IGameState
         gm = gameManager;
         player = GameObject.FindGameObjectWithTag("Player");
         cms = player.GetComponentInChildren<CameraMoveScript>();
+        player.AddComponent<CharacterController>();
         cms.CameraMode = new FPSCameraMovement(cms);
+        
+        GameHUDManager.Instance.SetInteractive(false);
     }
 
     public void Update()

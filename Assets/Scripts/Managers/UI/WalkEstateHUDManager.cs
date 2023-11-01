@@ -15,6 +15,11 @@ public class WalkEstateHUDManager : MonoBehaviour, IHUDManager
         ;
     }
 
+    public void SetInteractive(bool interactive)
+    {
+        gameObject.SetActive(interactive);
+    }
+
     private void Awake()
     {
         walkButton = GetComponentInChildren<Button>();

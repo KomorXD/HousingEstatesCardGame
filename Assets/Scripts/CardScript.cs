@@ -67,7 +67,7 @@ public class CardScript : MonoBehaviour
         
         buildingPrefab.name = $"Model_{cardData.Color}_{cardData.Value}";
         buildingPrefab.transform.position = position;
-        buildingPrefab.transform.localScale = 0.1f * Vector3.one;
+        buildingPrefab.transform.localScale = 2.7f * 3.0f * Vector3.one;
         
         buildingObject = Instantiate(buildingPrefab, gameObject.transform);
         buildingObject.name = $"Model_{cardData.Color}_{cardData.Value}";
