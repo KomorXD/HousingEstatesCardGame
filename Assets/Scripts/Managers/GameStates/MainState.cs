@@ -26,6 +26,13 @@ public class MainState : IGameState
 
         gm.DrawRandomCard();
         GameHUDManager.Instance.SetInteractive(true);
+
+        GameObject.FindObjectOfType<BoardScript>().RemoveCollider();
+
+        if(player.TryGetComponent<CharacterController>(out CharacterController controller))
+        {
+            GameObject.Destroy(controller);
+        }
     }
 
     public void Update()
