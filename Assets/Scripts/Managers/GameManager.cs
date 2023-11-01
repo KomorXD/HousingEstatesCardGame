@@ -7,58 +7,22 @@ public class GameManager : MonoBehaviour
     //! Class' instance
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] private IGameState gameState;
+
     [SerializeField] private int availableBombs;
     [SerializeField] private CardData? selectedCard;
     [SerializeField] private List<CardData> cardsDeck;
     [SerializeField] private bool bombsSelected;
 
-    public int AvailableBombs => availableBombs;
-    public CardData? SelectedCard => selectedCard;
+    public int AvailableBombs { get { return availableBombs; } set { availableBombs = value; } }
+    public CardData? SelectedCard { get { return selectedCard; } set { selectedCard = value; } }
+    public List<CardData> Deck { get { return cardsDeck; } set { cardsDeck = value; } }
     public int CardsLeft => cardsDeck.Count;
     public bool BombsSelected { get { return bombsSelected; } set { bombsSelected = value; } }
 
-    private void Awake()
+    public void SetState(IGameState state)
     {
-        Instance = this;
-    }
-
-    //! Sets up the game, draws random card at the end
-    void Start()
-    {
-        availableBombs = 5;
-        selectedCard = null;
-
-        cardsDeck = new List<CardData>
-        {
-            new CardData(CardColor.Hearts, CardValue.Queen, new Vector2(3, 2), new()),
-            new CardData(CardColor.Diamonds, CardValue.King, new Vector2(2, 2), new()),
-            new CardData(CardColor.Spades, CardValue.Eight, new Vector2(2, 1), new()),
-            new CardData(CardColor.Clubs, CardValue.Seven, new Vector2(3, 1), new())
-        };
-
-        DrawRandomCard();
-        GameHUDManager.Instance.Init();
-    }
-
-    private void Update()
-    {
-        if(!bombsSelected)
-        {
-            return;
-        }
-
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        bool hitDestructable = Physics.Raycast(ray, out RaycastHit hit) && hit.transform.gameObject.layer == LayerMask.NameToLayer("CardBuilding");
-
-        if (hitDestructable && Input.GetMouseButtonDown(0))
-        {
-            GameObject hitBuilding = hit.transform.gameObject;
-            GameObject hitBuildingCard = hitBuilding.transform.parent.gameObject;
-            GameObject hitBuildingTile = hitBuildingCard.transform.parent.gameObject;
-            TileScript hitTileScript = hitBuildingTile.GetComponent<TileScript>();
-
-            hitTileScript.ClearTile();
-        }
+        gameState = state;
     }
 
     /**
@@ -167,5 +131,21 @@ public class GameManager : MonoBehaviour
 
         cardsDeck.RemoveAt(randomIdx);
         selectedCard = card;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    //! Sets up the game, draws random card at the end
+    private void Start()
+    {
+        gameState = new MainState(this);
+    }
+
+    private void Update()
+    {
+        gameState.Update();
     }
 }
