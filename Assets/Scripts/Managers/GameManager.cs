@@ -53,12 +53,11 @@ public class GameManager : MonoBehaviour
         if (hitDestructable && Input.GetMouseButtonDown(0))
         {
             GameObject hitBuilding = hit.transform.gameObject;
-            GameObject hitBuildingTile = hitBuilding.transform.parent.gameObject;
+            GameObject hitBuildingCard = hitBuilding.transform.parent.gameObject;
+            GameObject hitBuildingTile = hitBuildingCard.transform.parent.gameObject;
             TileScript hitTileScript = hitBuildingTile.GetComponent<TileScript>();
 
-            hitTileScript.card.GetComponent<CardScript>().Despawn();
-            hitTileScript.card = null;
-            hitTileScript.placedBuilding = null;
+            hitTileScript.ClearTile();
         }
     }
 
