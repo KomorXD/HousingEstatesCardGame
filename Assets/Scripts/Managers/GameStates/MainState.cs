@@ -26,6 +26,7 @@ public class MainState : IGameState
 
         gm.DrawRandomCard();
         GameHUDManager.Instance.SetInteractive(true);
+        GameHUDManager.Instance.UpdateUI();
 
         GameObject.FindObjectOfType<BoardScript>().RemoveCollider();
 
