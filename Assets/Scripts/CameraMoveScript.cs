@@ -31,7 +31,8 @@ public class CameraMoveScript : MonoBehaviour
     //! Camera's position Lerp value
     public float editorCameraLerpValue = 15.0f;
 
-    [SerializeField] private ICameraMovement iCamera;
+    [SerializeField] private ICameraMovement cameraMoveMode;
+    public ICameraMovement CameraMode { get { return cameraMoveMode; } set { cameraMoveMode = value; } }
 
     //! Reads set rotation and assigns it, default to EditorCameraMovement
     void Start()
@@ -39,22 +40,13 @@ public class CameraMoveScript : MonoBehaviour
         rotationX = transform.localRotation.eulerAngles.x;
         rotationY = holderTransform.localRotation.eulerAngles.y;
         
-        iCamera = new EditorCameraMovement(this);
+        cameraMoveMode = new EditorCameraMovement(this);
     }
 
     //! Check for change of camera mode, update current one
     void Update()
     {
-        if(Input.GetMouseButtonDown(2))
-        {
-            iCamera = new FPSCameraMovement(this);
-        }
-        else if (Input.GetMouseButtonUp(2))
-        {
-            iCamera = new EditorCameraMovement(this);
-        }
-        
-        iCamera.OnUpdate();
+        cameraMoveMode.OnUpdate();
     }
 
 }
