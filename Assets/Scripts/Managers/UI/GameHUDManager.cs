@@ -1,30 +1,39 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class GameHUDManager : MonoBehaviour
+public class GameHUDManager : MonoBehaviour, IHUDManager
 {
     public static GameHUDManager Instance { get; private set; }
 
-    private CardsHUDManager cardsHUD;
-    private BombsHUDManager bombsHUD;
-
-    public void UpdateUI()
-    {
-        cardsHUD.UpdateUI();
-        bombsHUD.UpdateUI();
-    }
-    
-    private void Awake()
-    {
-        Instance = this;
-
-        cardsHUD = FindObjectOfType<CardsHUDManager>();
-        bombsHUD = FindObjectOfType<BombsHUDManager>();
-    }
+    private List<IHUDManager> hudManagers;
 
     public void Init()
     {
-        cardsHUD.Init();
-        bombsHUD.Init();
+        hudManagers = new()
+        {
+            FindObjectOfType<CardsHUDManager>(),
+            FindObjectOfType<BombsHUDManager>(),
+            FindObjectOfType<WalkEstateHUDManager>()
+        };
+
+        foreach (var manager in hudManagers)
+        {
+            manager.Init();
+        }
+    }
+
+    public void UpdateUI()
+    {
+        foreach (var manager in hudManagers)
+        {
+            manager.UpdateUI();
+        }
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 }

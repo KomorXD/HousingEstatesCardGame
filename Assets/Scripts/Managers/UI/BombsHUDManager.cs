@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class BombsHUDManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class BombsHUDManager : MonoBehaviour, IHUDManager, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private float animationDeltaY = 10.0f;
     [SerializeField] private float moveAnimationDuration = 0.25f;
@@ -15,17 +15,6 @@ public class BombsHUDManager : MonoBehaviour, IPointerEnterHandler, IPointerExit
     private Button bombsButton;
     private TMP_Text bombsLeftText;
 
-    public void UpdateUI()
-    {
-        bombsLeftText.text = $"{(GameManager.Instance.BombsSelected ? "Bomba" : "Nej bomba :(")}";
-    }
-
-    private void Awake()
-    {
-        bombsButton = GetComponentInChildren<Button>();
-        bombsLeftText = GetComponentInChildren<TMP_Text>();
-    }
-
     public void Init()
     {
         Texture2D bombTex = Resources.Load<Texture2D>("Textures/gragas_bomba");
@@ -33,6 +22,17 @@ public class BombsHUDManager : MonoBehaviour, IPointerEnterHandler, IPointerExit
         bombsButton.onClick.AddListener(OnBombsSelected);
 
         UpdateUI();
+    }
+
+    public void UpdateUI()
+    {
+        bombsLeftText.text = $"{(GameManager.Instance.BombsSelected ? "Bomba" : "Nej bomba :(")}" + $" {GameManager.Instance.AvailableBombs}";
+    }
+
+    private void Awake()
+    {
+        bombsButton = GetComponentInChildren<Button>();
+        bombsLeftText = GetComponentInChildren<TMP_Text>();
     }
     
     private void OnBombsSelected()

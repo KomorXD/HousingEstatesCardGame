@@ -3,11 +3,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class CardsHUDManager : MonoBehaviour
+public class CardsHUDManager : MonoBehaviour, IHUDManager
 {
     private Image selectedCardImage;
     private Button nextCardButton;
     private TMP_Text nextCardButtonText;
+
+    public void Init()
+    {
+        nextCardButton.onClick.AddListener(OnNextCard);
+        UpdateUI();
+    }
 
     public void UpdateUI()
     {
@@ -37,12 +43,6 @@ public class CardsHUDManager : MonoBehaviour
         selectedCardImage = transform.GetChild(1).GetComponent<Image>();
         nextCardButton = GetComponentInChildren<Button>();
         nextCardButtonText = nextCardButton.GetComponentInChildren<TMP_Text>();
-    }
-
-    public void Init()
-    {
-        nextCardButton.onClick.AddListener(OnNextCard);
-        UpdateUI();
     }
 
     private void OnNextCard()
