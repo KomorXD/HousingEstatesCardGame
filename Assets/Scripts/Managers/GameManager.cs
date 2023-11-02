@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private IGameState gameState;
     private Difficulty difficulty;
+    private Dictionary<ParameterCategory, float> gameParameters;
 
     [SerializeField] private int availableBombs;
     [SerializeField] private CardData? selectedCard;
@@ -21,6 +22,68 @@ public class GameManager : MonoBehaviour
     public int CardsLeft => cardsDeck.Count;
     public bool BombsSelected { get { return bombsSelected; } set { bombsSelected = value; } }
     public Difficulty GameDifficulty => difficulty;
+    public Dictionary<ParameterCategory, float> GameParameters => gameParameters;
+
+    private void Awake()
+    {
+        Instance = this;
+        gameParameters = new()
+        {
+            { ParameterCategory.DwellingsPerHa, 0.0f },
+            { ParameterCategory.Trees, 0.0f },
+            { ParameterCategory.GreenSpaceIndex, 0.0f },
+            { ParameterCategory.GrossSapceIndex, 0.0f },
+            { ParameterCategory.FloorRatio, 0.0f },
+            { ParameterCategory.AverageFloors, 0.0f }
+        };
+
+        DifficultiesManager.Instance.Init();
+        difficulty = DifficultiesManager.Instance.Difficulties[1];
+
+        GameHUDManager.Instance.Init();
+    }
+
+    //! Sets up the game, draws random card at the end
+    void Start()
+    {
+        availableBombs = 5;
+        selectedCard = null;
+
+        cardsDeck = new List<CardData>
+        {
+            new CardData(CardColor.Hearts, CardValue.Queen, new()
+            {
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 10),
+                new CardParameter(ParameterCategory.Trees, 20),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 3),
+            }),
+            new CardData(CardColor.Diamonds, CardValue.King, new()
+            {
+                new CardParameter(ParameterCategory.Trees, 2),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 31),
+            }),
+            new CardData(CardColor.Spades, CardValue.Eight, new()
+            {
+                new CardParameter(ParameterCategory.DwellingsPerHa, 1),
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 1),
+                new CardParameter(ParameterCategory.Trees, 1),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 1),
+                new CardParameter(ParameterCategory.AverageFloors, 1),
+                new CardParameter(ParameterCategory.FloorRatio, 1),
+            }),
+            new CardData(CardColor.Clubs, CardValue.Seven, new()
+            {
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 1),
+            })
+        };
+
+        gameState = new MainState(this);
+    }
+
+    private void Update()
+    {
+        gameState.Update();
+    }
 
     public void SetState(IGameState state)
     {
@@ -81,27 +144,6 @@ public class GameManager : MonoBehaviour
         selectedCard = card;
     }
 
-    private void Awake()
-    {
-        Instance = this;
-
-        DifficultiesManager.Instance.Init();
-        difficulty = DifficultiesManager.Instance.Difficulties[0];
-        
-        GameHUDManager.Instance.Init();
-    }
-
-    //! Sets up the game, draws random card at the end
-    void Start()
-    {
-        gameState = new MainState(this);
-    }
-
-    private void Update()
-    {
-        gameState.Update();
-    }
-
     /**
      * Adds a new card to the deck
      * 
@@ -120,9 +162,9 @@ public class GameManager : MonoBehaviour
      * \param size (DEPRACATED) - card's size
      * \param parameters - list of card's parameters and values
      */
-    public void ConstructNewCardInDeck(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
+    public void ConstructNewCardInDeck(CardColor color, CardValue value, List<CardParameter> parameters)
     {
-        cardsDeck.Add(new CardData(color, value, size, parameters));
+        cardsDeck.Add(new CardData(color, value, parameters));
     }
 
     /**
