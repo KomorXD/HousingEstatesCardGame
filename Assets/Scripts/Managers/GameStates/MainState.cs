@@ -14,7 +14,7 @@ public class MainState : IGameState
         cms.CameraMode = new EditorCameraMovement(cms);
 
         gm.DrawRandomCard();
-        GameHUDManager.Instance.SetInteractive(true);
+        GameHUDManager.Instance.SetActive(true);
         GameHUDManager.Instance.UpdateUI();
 
         GameObject.FindObjectOfType<BoardScript>().RemoveCollider();
