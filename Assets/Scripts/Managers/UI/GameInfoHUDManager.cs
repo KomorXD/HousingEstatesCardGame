@@ -17,10 +17,11 @@ public class GameInfoHUDManager : MonoBehaviour, IHUDManager
 
     public void Init()
     {
-        Texture2D iconTex = Resources.Load<Texture2D>($"{GameManager.Instance.GameDifficulty.IconPath}");
+        Texture2D iconTex = Resources.Load<Texture2D>(GameManager.Instance.GameDifficulty.IconPath);
         icon.sprite = Sprite.Create(iconTex, new(0.0f, 0.0f, iconTex.width, iconTex.height), Vector2.zero);
 
-        nickname.text = PlayerPrefs.GetString("nickname") ?? "Placeholder";
+        // nickname.text = GameData.Instance.Username;
+        nickname.text = "lol";
 
         UpdateUI();
     }
