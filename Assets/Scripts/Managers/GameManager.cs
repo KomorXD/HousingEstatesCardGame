@@ -36,16 +36,16 @@ public class GameManager : MonoBehaviour
             { ParameterCategory.FloorRatio, 0.0f },
             { ParameterCategory.AverageFloors, 0.0f }
         };
-
-        DifficultiesManager.Instance.Init();
-        difficulty = DifficultiesManager.Instance.Difficulties[1];
-
-        GameHUDManager.Instance.Init();
     }
 
     //! Sets up the game, draws random card at the end
     void Start()
     {
+        DifficultiesManager.Instance.Init();
+        difficulty = DifficultiesManager.Instance.Difficulties[1];
+
+        GameHUDManager.Instance.Init();
+
         availableBombs = 5;
         selectedCard = null;
 
