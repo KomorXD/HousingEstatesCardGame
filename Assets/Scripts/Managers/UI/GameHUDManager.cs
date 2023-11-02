@@ -15,7 +15,8 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
             FindObjectOfType<CardsHUDManager>(),
             FindObjectOfType<BombsHUDManager>(),
             FindObjectOfType<WalkEstateHUDManager>(),
-            FindObjectOfType<GameInfoHUDManager>()
+            FindObjectOfType<GameInfoHUDManager>(),
+            FindObjectOfType<PointsHUDManager>()
         };
 
         foreach (var manager in hudManagers)
