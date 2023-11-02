@@ -11,12 +11,15 @@ public class MenuManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject startMenuPanel;
     [SerializeField] private GameObject gameInputPanel;
+    [SerializeField] private GameObject difficultyPanel;
 
     [Header("Butons")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button quitButton;
-    [SerializeField] private Button backButton;
+    [SerializeField] private Button backInputButton;
     [SerializeField] private Button playButton;
+    [SerializeField] private Button diffButton;
+    [SerializeField] private Button backDiffButton;
 
     [Header("Inputs")]
     [SerializeField] private TMP_InputField nickInput;
@@ -35,11 +38,13 @@ public class MenuManager : MonoBehaviour
     {
         startButton.onClick.AddListener(OnStartButtonClick);
         quitButton.onClick.AddListener(OnQuitButtonClick);
-        backButton.onClick.AddListener(BackButtonClick);
+        backInputButton.onClick.AddListener(BackInputButtonClick);
         playButton.onClick.AddListener(PlayButtonClick);
+        diffButton.onClick.AddListener(DiffButtonClick);
+        backDiffButton.onClick.AddListener(BackDiffButtonClick);
     }
 
-    private void BackButtonClick()
+    private void BackInputButtonClick()
     {
         gameInputPanel.GetComponent<MenuPanelAnimator>().Right();
         startMenuPanel.GetComponent<MenuPanelAnimator>().Right();
@@ -69,5 +74,17 @@ public class MenuManager : MonoBehaviour
 
         Debug.Log(nickInput.text.Length);
         Debug.Log(nickInput.text);
+    }
+
+    private void DiffButtonClick()
+    {
+        gameInputPanel.GetComponent<MenuPanelAnimator>().Left();
+        difficultyPanel.GetComponent<MenuPanelAnimator>().Left();
+    }
+
+    private void BackDiffButtonClick()
+    {
+        difficultyPanel.GetComponent<MenuPanelAnimator>().Right();
+        gameInputPanel.GetComponent<MenuPanelAnimator>().Right();
     }
 }
