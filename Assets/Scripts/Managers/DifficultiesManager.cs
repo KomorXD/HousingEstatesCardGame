@@ -4,15 +4,25 @@ using UnityEngine;
 
 public struct DifficultyRequirement
 {
-    CardParameter Parameter;
     public float Min;
     public float Max;
+    public CardParameter Parameter;
 
     public DifficultyRequirement(CardParameter parameter, float min, float max)
     {
         Parameter = parameter;
         Min = min;
         Max = max;
+    }
+
+    public static bool operator ==(DifficultyRequirement a, DifficultyRequirement b)
+    {
+        return a.Parameter.Category == b.Parameter.Category;
+    }
+
+    public static bool operator !=(DifficultyRequirement a, DifficultyRequirement b)
+    {
+        return !(a == b);
     }
 }
 
