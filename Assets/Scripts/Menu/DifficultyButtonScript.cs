@@ -6,23 +6,18 @@ using UnityEngine.UI;
 
 public class DifficultyButtonScript : MonoBehaviour
 {
-    private string Name;
-    private string IconPath;
+    private string buttonName;
+    private string iconPath;
 
     public TextMeshProUGUI textMeshProUGUI;
     public RawImage rawImage;
 
-    public void Start()
+    public void Init(string name, string path)
     {
-        Name = "Easy";
-        IconPath = "Textures/Difficulties/";
-        Init();
-    }
-
-    public void Init()
-    {
-        Texture2D texture = Resources.Load<Texture2D>($"{IconPath}{Name}");
-        textMeshProUGUI.text = Name.ToUpper();
+        buttonName = name;
+        iconPath = path;
+        Texture2D texture = Resources.Load<Texture2D>($"{iconPath}{buttonName}");
+        textMeshProUGUI.text = buttonName.ToUpper();
         rawImage.texture = texture;
     }
 }

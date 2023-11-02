@@ -21,4 +21,9 @@ public class MenuPanelAnimator : MonoBehaviour
             obj.GetComponent<UIHorizontalAnimator>().Right();
         }
     }
+
+    public void AddObject(GameObject gameObject)
+    {
+        objectToAnimate.Add(gameObject);
+    }
 }
