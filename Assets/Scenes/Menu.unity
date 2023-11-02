@@ -353,6 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496f24836e9c62f4a8718868b7e90481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulties: []
 --- !u!4 &28182207
 Transform:
   m_ObjectHideFlags: 0
@@ -537,6 +538,56 @@ MonoBehaviour:
   diffButton: {fileID: 1634610628}
   backDiffButton: {fileID: 1494625528}
   nickInput: {fileID: 827843583}
+--- !u!1 &450233784
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 450233786}
+  - component: {fileID: 450233785}
+  m_Layer: 0
+  m_Name: GameData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &450233785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450233784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65178d5d6ae9e774f8645604c685d9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficulty:
+    Name: 
+    IconPath: 
+    BombsCount: 0
+    Requirements: []
+  username: 
+--- !u!4 &450233786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450233784}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 684.1207, y: 332.83624, z: 1.0339355}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &649001912 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 300245740092152947, guid: 9a4751e7ce9f1b44b93a96f816a6894c, type: 3}
@@ -1907,3 +1958,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496f24836e9c62f4a8718868b7e90481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficulties: []
