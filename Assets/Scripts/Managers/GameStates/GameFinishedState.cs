@@ -6,18 +6,28 @@ using UnityEngine.SceneManagement;
 
 public class GameFinishedState : IGameState
 {
+    private float startTS;
+    private float delay = 2.0f;
+
     public GameFinishedState()
     {
         CameraMoveScript cms = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<CameraMoveScript>();
         cms.enabled = false;
+        cms.holderTransform.DOMoveY(cms.holderTransform.position.y + 1000.0f, delay).SetEase(Ease.InSine);
 
-        cms.holderTransform.DOMoveY(cms.holderTransform.position.y + 1000.0f, 2.0f).SetEase(Ease.InSine);
-        Task.Delay(2000).ContinueWith(_ => ChangeScene());
+        GameHUDManager ghm = GameHUDManager.Instance;
+        ghm.SetInteractive(false);
+        ghm.transform.DOMoveX(-1000.0f, delay).SetEase(Ease.InSine);
+
+        startTS = Time.time;
     }
 
     public void Update()
     {
-        ;
+        if(Time.time - startTS >= delay)
+        {
+            ChangeScene();
+        }
     }
 
     private void ChangeScene()
