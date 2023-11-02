@@ -36,7 +36,7 @@ public class TileScript : MonoBehaviour
     private void OnMouseDown()
     {
         // Trying to place a card on top of another
-        if (placedCard)
+        if (placedCard || GameManager.Instance.BombsSelected)
         {
             return;
         }
