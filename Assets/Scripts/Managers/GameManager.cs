@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private IGameState gameState;
+    private Difficulty difficulty;
 
     [SerializeField] private int availableBombs;
     [SerializeField] private CardData? selectedCard;
@@ -19,64 +20,11 @@ public class GameManager : MonoBehaviour
     public List<CardData> Deck { get { return cardsDeck; } set { cardsDeck = value; } }
     public int CardsLeft => cardsDeck.Count;
     public bool BombsSelected { get { return bombsSelected; } set { bombsSelected = value; } }
+    public Difficulty GameDifficulty => difficulty;
 
     public void SetState(IGameState state)
     {
         gameState = state;
-    }
-
-    /**
-     * Adds a new card to the deck
-     * 
-     * \param newCard - new card to add
-     */
-    public void AddNewCardToDeck(CardData newCard)
-    {
-        cardsDeck.Add(newCard);
-    }
-
-    /**
-     * Construct a new card in place
-     * 
-     * \param color - card's color
-     * \param value - card's value
-     * \param size (DEPRACATED) - card's size
-     * \param parameters - list of card's parameters and values
-     */
-    public void ConstructNewCardInDeck(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
-    {
-        cardsDeck.Add(new CardData(color, value, size, parameters));
-    }
-
-    /**
-     * Returns card at the given index
-     * 
-     * \param index - index
-     * \returns card
-     */
-    public CardData GetCardAt(int index)
-    {
-        return cardsDeck[index];
-    }
-
-    /**
-     * Erases card at the given index
-     * 
-     * \param index - index
-     */
-    public void EraseCardAt(int index)
-    {
-        cardsDeck.RemoveAt(index);
-    }
-    /**
-     * Updates card at the given index
-     * 
-     * \param index - index
-     * \param card - updated card
-     */
-    public void UpdateCardAt(int index, CardData card)
-    {
-        cardsDeck[index] = card;
     }
 
     /**
@@ -136,6 +84,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        DifficultiesManager.Instance.Init();
+        difficulty = DifficultiesManager.Instance.Difficulties[0];
+        
         GameHUDManager.Instance.Init();
     }
 
@@ -148,5 +100,59 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         gameState.Update();
+    }
+
+    /**
+     * Adds a new card to the deck
+     * 
+     * \param newCard - new card to add
+     */
+    public void AddNewCardToDeck(CardData newCard)
+    {
+        cardsDeck.Add(newCard);
+    }
+
+    /**
+     * Construct a new card in place
+     * 
+     * \param color - card's color
+     * \param value - card's value
+     * \param size (DEPRACATED) - card's size
+     * \param parameters - list of card's parameters and values
+     */
+    public void ConstructNewCardInDeck(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
+    {
+        cardsDeck.Add(new CardData(color, value, size, parameters));
+    }
+
+    /**
+     * Returns card at the given index
+     * 
+     * \param index - index
+     * \returns card
+     */
+    public CardData GetCardAt(int index)
+    {
+        return cardsDeck[index];
+    }
+
+    /**
+     * Erases card at the given index
+     * 
+     * \param index - index
+     */
+    public void EraseCardAt(int index)
+    {
+        cardsDeck.RemoveAt(index);
+    }
+    /**
+     * Updates card at the given index
+     * 
+     * \param index - index
+     * \param card - updated card
+     */
+    public void UpdateCardAt(int index, CardData card)
+    {
+        cardsDeck[index] = card;
     }
 }

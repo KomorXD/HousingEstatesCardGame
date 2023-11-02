@@ -32,7 +32,7 @@ public struct Difficulty
 
 public class DifficultiesManager : MonoBehaviour
 {
-    public DifficultiesManager Instance { get; private set; }
+    public static DifficultiesManager Instance { get; private set; }
 
     private List<Difficulty> difficulties;
     public List<Difficulty> Difficulties => difficulties;
@@ -62,7 +62,7 @@ public class DifficultiesManager : MonoBehaviour
         difficulties.Add(diff);
     }
 
-    public void InitFromFile()
+    public void InitFromFile(string path)
     {
         throw new NotImplementedException();
     }
