@@ -41,12 +41,9 @@ public class GameManager : MonoBehaviour
     //! Sets up the game, draws random card at the end
     void Start()
     {
-        DifficultiesManager.Instance.Init();
+        // difficulty = GameData.Instance.GameDifficulty;
         difficulty = DifficultiesManager.Instance.Difficulties[1];
-
-        GameHUDManager.Instance.Init();
-
-        availableBombs = 5;
+        availableBombs = difficulty.BombsCount;
         selectedCard = null;
 
         cardsDeck = new List<CardData>
@@ -77,6 +74,7 @@ public class GameManager : MonoBehaviour
             })
         };
 
+        GameHUDManager.Instance.Init();
         gameState = new MainState(this);
     }
 
