@@ -41,20 +41,20 @@ public class DifficultiesManager : MonoBehaviour
     {
         difficulties = new();
         
-        Difficulty diff = new Difficulty("Easy", "icons/easy_diff", new()
+        Difficulty diff = new Difficulty("Easy", "Difficulties/easy_icon", new()
         {
             new DifficultyRequirement(new CardParameter(ParameterCategory.Trees, 10), 1, 100)
         });
         difficulties.Add(diff);
 
-        diff = new Difficulty("Normal", "icons/normal_diff", new()
+        diff = new Difficulty("Normal", "Difficulties/normal_icon", new()
         {
             new DifficultyRequirement(new CardParameter(ParameterCategory.GreenSpaceIndex, 11), 2, 200),
             new DifficultyRequirement(new CardParameter(ParameterCategory.DwellingsPerHa, 12), 3, 300)
         });
         difficulties.Add(diff);
 
-        diff = new Difficulty("Hard", "icons/hard_diff", new()
+        diff = new Difficulty("Hard", "Difficulties/hard_icon", new()
         {
             new DifficultyRequirement(new CardParameter(ParameterCategory.FloorRatio, 13), 3, 300),
             new DifficultyRequirement(new CardParameter(ParameterCategory.AverageFloors, 14), 4, 400)
