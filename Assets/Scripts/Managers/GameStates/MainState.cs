@@ -9,23 +9,12 @@ public class MainState : IGameState
     {
         gm = gameManager;
 
-        gm.AvailableBombs = 5;
-        gm.SelectedCard = null;
-
-        gm.Deck = new List<CardData>
-        {
-            new CardData(CardColor.Hearts, CardValue.Queen, new Vector2(3, 2), new()),
-            new CardData(CardColor.Diamonds, CardValue.King, new Vector2(2, 2), new()),
-            new CardData(CardColor.Spades, CardValue.Eight, new Vector2(2, 1), new()),
-            new CardData(CardColor.Clubs, CardValue.Seven, new Vector2(3, 1), new())
-        };
-
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         CameraMoveScript cms = player.GetComponentInChildren<CameraMoveScript>();
         cms.CameraMode = new EditorCameraMovement(cms);
 
         gm.DrawRandomCard();
-        GameHUDManager.Instance.SetInteractive(true);
+        GameHUDManager.Instance.SetActive(true);
         GameHUDManager.Instance.UpdateUI();
 
         GameObject.FindObjectOfType<BoardScript>().RemoveCollider();

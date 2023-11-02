@@ -13,9 +13,18 @@ public class TileScript : MonoBehaviour
             return;
         }
 
-        placedCard.GetComponent<CardScript>().Despawn();
+        CardScript cs = placedCard.GetComponent<CardScript>();
+
+        foreach (var property in cs.Data.Parameters)
+        {
+            GameManager.Instance.GameParameters[property.Category] -= property.Value;
+        }
+
+        cs.Despawn();
         DestroyImmediate(placedCard, true);
         placedCard = null;
+
+        GameHUDManager.Instance.UpdateUI();
     }
 
     private void Awake()
@@ -27,7 +36,7 @@ public class TileScript : MonoBehaviour
     private void OnMouseDown()
     {
         // Trying to place a card on top of another
-        if (placedCard)
+        if (placedCard || GameManager.Instance.BombsSelected)
         {
             return;
         }
@@ -44,7 +53,16 @@ public class TileScript : MonoBehaviour
         CardData data = placedCard.GetComponent<CardScript>().Data;
         placedCard.name = $"Card_{data.Color}_{data.Value}";
         placedCard.transform.parent = gameObject.transform;
-        placedCard.GetComponent<CardScript>().PlaceBuilding(transform.position + Vector3.up * transform.localScale.y / 2.0f);
+
+        CardScript cs = placedCard.GetComponent<CardScript>();
+        cs.PlaceBuilding(transform.position + Vector3.up * transform.localScale.y / 2.0f);
+        
+        foreach(var property in cs.Data.Parameters)
+        {
+            GameManager.Instance.GameParameters[property.Category] += property.Value;
+        }
+
+        GameHUDManager.Instance.UpdateUI();
     }
 
     private void OnMouseEnter()

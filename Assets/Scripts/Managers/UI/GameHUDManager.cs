@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,7 +14,9 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         {
             FindObjectOfType<CardsHUDManager>(),
             FindObjectOfType<BombsHUDManager>(),
-            FindObjectOfType<WalkEstateHUDManager>()
+            FindObjectOfType<ControlButtonsHUDManager>(),
+            FindObjectOfType<GameInfoHUDManager>(),
+            FindObjectOfType<PointsHUDManager>()
         };
 
         foreach (var manager in hudManagers)
@@ -35,6 +36,14 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
     private void Awake()
     {
         Instance = this;
+    }
+
+    public void SetActive(bool active)
+    {
+        foreach (var manager in hudManagers)
+        {
+            manager.SetActive(active);
+        }
     }
 
     public void SetInteractive(bool interactive)

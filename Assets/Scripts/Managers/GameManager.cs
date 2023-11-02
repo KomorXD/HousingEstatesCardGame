@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private IGameState gameState;
+    private Difficulty difficulty;
+    private Dictionary<ParameterCategory, float> gameParameters;
 
     [SerializeField] private int availableBombs;
     [SerializeField] private CardData? selectedCard;
@@ -19,64 +21,73 @@ public class GameManager : MonoBehaviour
     public List<CardData> Deck { get { return cardsDeck; } set { cardsDeck = value; } }
     public int CardsLeft => cardsDeck.Count;
     public bool BombsSelected { get { return bombsSelected; } set { bombsSelected = value; } }
+    public Difficulty GameDifficulty => difficulty;
+    public Dictionary<ParameterCategory, float> GameParameters => gameParameters;
+
+    private void Awake()
+    {
+        Instance = this;
+        gameParameters = new()
+        {
+            { ParameterCategory.DwellingsPerHa, 0.0f },
+            { ParameterCategory.Trees, 0.0f },
+            { ParameterCategory.GreenSpaceIndex, 0.0f },
+            { ParameterCategory.GrossSapceIndex, 0.0f },
+            { ParameterCategory.FloorRatio, 0.0f },
+            { ParameterCategory.AverageFloors, 0.0f }
+        };
+    }
+
+    //! Sets up the game, draws random card at the end
+    void Start()
+    {
+        DifficultiesManager.Instance.Init();
+        difficulty = DifficultiesManager.Instance.Difficulties[1];
+
+        GameHUDManager.Instance.Init();
+
+        availableBombs = 5;
+        selectedCard = null;
+
+        cardsDeck = new List<CardData>
+        {
+            new CardData(CardColor.Hearts, CardValue.Queen, new()
+            {
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 10),
+                new CardParameter(ParameterCategory.Trees, 20),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 3),
+            }),
+            new CardData(CardColor.Diamonds, CardValue.King, new()
+            {
+                new CardParameter(ParameterCategory.Trees, 2),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 31),
+            }),
+            new CardData(CardColor.Spades, CardValue.Eight, new()
+            {
+                new CardParameter(ParameterCategory.DwellingsPerHa, 1),
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 1),
+                new CardParameter(ParameterCategory.Trees, 1),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 1),
+                new CardParameter(ParameterCategory.AverageFloors, 1),
+                new CardParameter(ParameterCategory.FloorRatio, 1),
+            }),
+            new CardData(CardColor.Clubs, CardValue.Seven, new()
+            {
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 1),
+            })
+        };
+
+        gameState = new MainState(this);
+    }
+
+    private void Update()
+    {
+        gameState.Update();
+    }
 
     public void SetState(IGameState state)
     {
         gameState = state;
-    }
-
-    /**
-     * Adds a new card to the deck
-     * 
-     * \param newCard - new card to add
-     */
-    public void AddNewCardToDeck(CardData newCard)
-    {
-        cardsDeck.Add(newCard);
-    }
-
-    /**
-     * Construct a new card in place
-     * 
-     * \param color - card's color
-     * \param value - card's value
-     * \param size (DEPRACATED) - card's size
-     * \param parameters - list of card's parameters and values
-     */
-    public void ConstructNewCardInDeck(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
-    {
-        cardsDeck.Add(new CardData(color, value, size, parameters));
-    }
-
-    /**
-     * Returns card at the given index
-     * 
-     * \param index - index
-     * \returns card
-     */
-    public CardData GetCardAt(int index)
-    {
-        return cardsDeck[index];
-    }
-
-    /**
-     * Erases card at the given index
-     * 
-     * \param index - index
-     */
-    public void EraseCardAt(int index)
-    {
-        cardsDeck.RemoveAt(index);
-    }
-    /**
-     * Updates card at the given index
-     * 
-     * \param index - index
-     * \param card - updated card
-     */
-    public void UpdateCardAt(int index, CardData card)
-    {
-        cardsDeck[index] = card;
     }
 
     /**
@@ -133,20 +144,57 @@ public class GameManager : MonoBehaviour
         selectedCard = card;
     }
 
-    private void Awake()
+    /**
+     * Adds a new card to the deck
+     * 
+     * \param newCard - new card to add
+     */
+    public void AddNewCardToDeck(CardData newCard)
     {
-        Instance = this;
-        GameHUDManager.Instance.Init();
+        cardsDeck.Add(newCard);
     }
 
-    //! Sets up the game, draws random card at the end
-    void Start()
+    /**
+     * Construct a new card in place
+     * 
+     * \param color - card's color
+     * \param value - card's value
+     * \param size (DEPRACATED) - card's size
+     * \param parameters - list of card's parameters and values
+     */
+    public void ConstructNewCardInDeck(CardColor color, CardValue value, List<CardParameter> parameters)
     {
-        gameState = new MainState(this);
+        cardsDeck.Add(new CardData(color, value, parameters));
     }
 
-    private void Update()
+    /**
+     * Returns card at the given index
+     * 
+     * \param index - index
+     * \returns card
+     */
+    public CardData GetCardAt(int index)
     {
-        gameState.Update();
+        return cardsDeck[index];
+    }
+
+    /**
+     * Erases card at the given index
+     * 
+     * \param index - index
+     */
+    public void EraseCardAt(int index)
+    {
+        cardsDeck.RemoveAt(index);
+    }
+    /**
+     * Updates card at the given index
+     * 
+     * \param index - index
+     * \param card - updated card
+     */
+    public void UpdateCardAt(int index, CardData card)
+    {
+        cardsDeck[index] = card;
     }
 }

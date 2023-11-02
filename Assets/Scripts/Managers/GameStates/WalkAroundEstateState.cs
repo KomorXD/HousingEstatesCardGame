@@ -14,7 +14,7 @@ public class WalkAroundEstateState : IGameState
         player.AddComponent<CharacterController>();
         cms.CameraMode = new FPSCameraMovement(cms);
         
-        GameHUDManager.Instance.SetInteractive(false);
+        GameHUDManager.Instance.SetActive(false);
         GameObject.FindObjectOfType<BoardScript>().SpawnCollider();
     }
 
