@@ -11,18 +11,14 @@ public struct CardData
     //! Card's value
     public CardValue Value;
 
-    //! depracated
-    public Vector2 Size;
-
     //! Card's parameters
     public List<CardParameter> Parameters;
 
     //! Intializes properties with given values
-    public CardData(CardColor color, CardValue value, Vector2 size, List<CardParameter> parameters)
+    public CardData(CardColor color, CardValue value, List<CardParameter> parameters)
     {
         Color = color;
         Value = value;
-        Size = size;
         Parameters = parameters;
     }
 }
@@ -35,13 +31,13 @@ public struct CardParameter
     public ParameterCategory Category;
 
     //! Parameter's value
-    public int Points;
+    public int Value;
 
     //! Intializes properties with given values
     public CardParameter(ParameterCategory category, int points)
     {
         Category = category;
-        Points = points;
+        Value = points;
     }
 }
 
