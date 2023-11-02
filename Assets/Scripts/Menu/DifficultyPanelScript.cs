@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class DifficultyPanelScript : MonoBehaviour
 {
@@ -16,7 +13,6 @@ public class DifficultyPanelScript : MonoBehaviour
 
     void Start()
     {
-
         difficulties = GetComponent<DifficultiesManager>().Difficulties;
 
         Vector3 startPos;
@@ -28,13 +24,13 @@ public class DifficultyPanelScript : MonoBehaviour
             endPos = CalcualteEndPos(globalEndPos);
 
             GameObject diffButton = Resources.Load<GameObject>("Prefabs/Menu/DifficultyButton");
-            diffButton.GetComponent<DifficultyButtonScript>().Init(difficulty.Name, difficulty.IconPath);
-
+            diffButton.GetComponent<DifficultyButtonScript>().Init(difficulty);
+            
             diffButton.GetComponent<UIHorizontalAnimator>().Init(
                 new Vector3(startPos.x, startPos.y, startPos.z), 
                 new Vector3(endPos.x, endPos.y, endPos.z ), 
                 0.5f, 0.3f - currentCol * 0.1f, 0.1f + currentCol * 0.1f
-                );
+            );
             diffButton.name = $"{difficulty.Name}Button";
             diffButton = Instantiate(diffButton, this.transform);
             GetComponent<MenuPanelAnimator>().AddObject(diffButton);

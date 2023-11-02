@@ -1,23 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DifficultyButtonScript : MonoBehaviour
 {
-    private string buttonName;
-    private string iconPath;
-
     public TextMeshProUGUI textMeshProUGUI;
     public RawImage rawImage;
+    
+    private Difficulty difficulty;
 
-    public void Init(string name, string path)
+    public void Init(Difficulty diff)
     {
-        buttonName = name;
-        iconPath = path;
-        Texture2D texture = Resources.Load<Texture2D>($"{iconPath}{buttonName}");
-        textMeshProUGUI.text = buttonName.ToUpper();
+        difficulty = diff;
+
+        Texture2D texture = Resources.Load<Texture2D>(diff.IconPath);
+        textMeshProUGUI.text = diff.Name.ToUpper();
         rawImage.texture = texture;
     }
 }
