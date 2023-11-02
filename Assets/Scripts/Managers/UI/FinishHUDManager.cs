@@ -9,6 +9,10 @@ public class FinishHUDManager : MonoBehaviour
     [SerializeField] private Button playButton; 
     [SerializeField] private Button quitButton;
 
+    [SerializeField] private RectTransform imageHolder;
+    [SerializeField] private RectTransform playBtnHolder;
+    [SerializeField] private RectTransform quitBtnHolder;
+
     private void Awake()
     {
         bool playerWon = PlayerPrefs.GetInt("player_won") != 0;
@@ -17,13 +21,13 @@ public class FinishHUDManager : MonoBehaviour
         Texture2D tex = Resources.Load<Texture2D>($"Textures/{filename}");
         image.sprite = Sprite.Create(tex, new(0.0f, 0.0f, tex.width, tex.height), Vector2.zero);
 
-        image.transform.parent.GetComponent<RectTransform>().DOLocalMoveY(130.0f, 1.0f).SetEase(Ease.OutSine);
-        playButton.transform.parent.GetComponent<RectTransform>().DOLocalMoveX(0.0f, 1.0f).SetEase(Ease.OutSine);
-        quitButton.transform.parent.GetComponent<RectTransform>().DOLocalMoveX(0.0f, 1.0f).SetEase(Ease.OutSine);
+        imageHolder.DOLocalMoveY(130.0f, 1.0f).SetEase(Ease.OutSine);
+        playBtnHolder.DOLocalMoveX(0.0f, 1.0f).SetEase(Ease.OutSine);
+        quitBtnHolder.DOLocalMoveX(0.0f, 1.0f).SetEase(Ease.OutSine);
 
         Invoke(nameof(EnableButtons), 1.0f);
     }
-
+    
     private void EnableButtons()
     {
         playButton.interactable = true;
@@ -44,13 +48,11 @@ public class FinishHUDManager : MonoBehaviour
 
     private void LoadMenuScene()
     {
-        Debug.Log("Xd3");
         SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Single);
     }
 
     private void OnPlayButtonPressed()
     {
-        Debug.Log("Xd1");
         DisableButtons();
 
         transform.DOMoveY(-4000.0f, 1.0f).SetEase(Ease.InSine);
@@ -60,7 +62,6 @@ public class FinishHUDManager : MonoBehaviour
 
     private void OnQuitButtonPressed()
     {
-        Debug.Log("Xd2");
         Application.Quit();
     }
 }
