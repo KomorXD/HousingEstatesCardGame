@@ -38,9 +38,14 @@ public class CardsHUDManager : MonoBehaviour, IHUDManager
         nextCardButtonText.text = $"Next card ({GameManager.Instance.CardsLeft} left)";
     }
 
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+
     public void SetInteractive(bool interactive)
     {
-        gameObject.SetActive(interactive);
+        nextCardButton.interactable = interactive;
     }
 
     private void Awake()

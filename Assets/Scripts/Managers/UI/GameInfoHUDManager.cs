@@ -25,9 +25,14 @@ public class GameInfoHUDManager : MonoBehaviour, IHUDManager
         UpdateUI();
     }
 
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+    
     public void SetInteractive(bool interactive)
     {
-        gameObject.SetActive(interactive);
+        ;
     }
 
     public void UpdateUI()

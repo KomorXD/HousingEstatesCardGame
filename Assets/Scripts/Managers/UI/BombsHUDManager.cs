@@ -29,9 +29,14 @@ public class BombsHUDManager : MonoBehaviour, IHUDManager, IPointerEnterHandler,
         bombsLeftText.text = $"{(GameManager.Instance.BombsSelected ? "Bomba" : "Nej bomba :(")}" + $" {GameManager.Instance.AvailableBombs}";
     }
 
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+
     public void SetInteractive(bool interactive)
     {
-        gameObject.SetActive(interactive);
+        bombsButton.interactable = interactive;
     }
 
     private void Awake()

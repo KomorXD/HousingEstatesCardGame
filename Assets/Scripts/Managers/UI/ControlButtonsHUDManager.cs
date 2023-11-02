@@ -17,9 +17,15 @@ public class ControlButtonsHUDManager : MonoBehaviour, IHUDManager
         ;
     }
 
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+
     public void SetInteractive(bool interactive)
     {
-        gameObject.SetActive(interactive);
+        walkButton.interactable = interactive;
+        finishButton.interactable = interactive;
     }
 
     private void StartTheWalk()
