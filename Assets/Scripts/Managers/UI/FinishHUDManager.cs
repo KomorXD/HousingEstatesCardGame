@@ -13,6 +13,8 @@ public class FinishHUDManager : MonoBehaviour
     [SerializeField] private RectTransform playBtnHolder;
     [SerializeField] private RectTransform quitBtnHolder;
 
+    [SerializeField] private float slideDuration = 0.7f;
+
     private void Awake()
     {
         bool playerWon = PlayerPrefs.GetInt("player_won") != 0;
@@ -21,11 +23,11 @@ public class FinishHUDManager : MonoBehaviour
         Texture2D tex = Resources.Load<Texture2D>($"Textures/{filename}");
         image.sprite = Sprite.Create(tex, new(0.0f, 0.0f, tex.width, tex.height), Vector2.zero);
 
-        imageHolder.DOLocalMoveY(130.0f, 1.0f).SetEase(Ease.OutSine);
-        playBtnHolder.DOLocalMoveX(0.0f, 1.0f).SetEase(Ease.OutSine);
-        quitBtnHolder.DOLocalMoveX(0.0f, 1.0f).SetEase(Ease.OutSine);
+        imageHolder.DOLocalMoveY(130.0f, slideDuration).SetEase(Ease.OutSine);
+        playBtnHolder.DOLocalMoveX(0.0f, slideDuration).SetEase(Ease.OutSine);
+        quitBtnHolder.DOLocalMoveX(0.0f, slideDuration).SetEase(Ease.OutSine);
 
-        Invoke(nameof(EnableButtons), 1.0f);
+        Invoke(nameof(EnableButtons), slideDuration);
     }
     
     private void EnableButtons()
