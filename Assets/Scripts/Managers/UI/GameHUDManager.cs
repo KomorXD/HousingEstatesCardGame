@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,7 +14,8 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         {
             FindObjectOfType<CardsHUDManager>(),
             FindObjectOfType<BombsHUDManager>(),
-            FindObjectOfType<WalkEstateHUDManager>()
+            FindObjectOfType<WalkEstateHUDManager>(),
+            FindObjectOfType<GameInfoHUDManager>()
         };
 
         foreach (var manager in hudManagers)
