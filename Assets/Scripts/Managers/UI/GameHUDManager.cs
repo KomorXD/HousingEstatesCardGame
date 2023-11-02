@@ -14,7 +14,7 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         {
             FindObjectOfType<CardsHUDManager>(),
             FindObjectOfType<BombsHUDManager>(),
-            FindObjectOfType<WalkEstateHUDManager>(),
+            FindObjectOfType<ControlButtonsHUDManager>(),
             FindObjectOfType<GameInfoHUDManager>(),
             FindObjectOfType<PointsHUDManager>()
         };
