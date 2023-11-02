@@ -29,7 +29,6 @@ public class ControlButtonsHUDManager : MonoBehaviour, IHUDManager
 
     private void FinishGame()
     {
-        Debug.Log("nara");
-        // GameManager.Instance.SetState(new GameFinished(GameManager.Instance));
+        GameManager.Instance.SetState(new GameFinishedState());
     }
 }
