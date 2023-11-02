@@ -90,6 +90,11 @@ public class DifficultiesManager : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance != null)
+        {
+            return;
+        }
+
         Instance = this;
         Init();
         DontDestroyOnLoad(gameObject);

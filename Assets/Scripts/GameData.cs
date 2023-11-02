@@ -12,6 +12,11 @@ public class GameData : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance != null)
+        {
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
