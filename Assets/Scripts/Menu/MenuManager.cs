@@ -70,7 +70,7 @@ public class MenuManager : MonoBehaviour
             return;
 
         PlayerPrefs.SetString("nickname", nickInput.text);
-        SceneManager.LoadSceneAsync("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
 
         Debug.Log(nickInput.text.Length);
         Debug.Log(nickInput.text);
