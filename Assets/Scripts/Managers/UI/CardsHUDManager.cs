@@ -57,6 +57,7 @@ public class CardsHUDManager : MonoBehaviour, IHUDManager
 
     private void OnNextCard()
     {
+        GameManager.Instance.BombsSelected = false;
         GameManager.Instance.DrawRandomCard();
         UpdateUI();
     }

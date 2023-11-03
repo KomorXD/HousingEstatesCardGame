@@ -68,6 +68,13 @@ public class CardScript : MonoBehaviour
         buildingObject = Instantiate(buildingPrefab, gameObject.transform);
         buildingObject.name = $"Model_{cardData.Color}_{cardData.Value}";
         buildingObject.layer = LayerMask.NameToLayer("CardBuilding");
+        Destroy(buildingObject.GetComponent<MeshCollider>()); // for now, since placeholder models have that
+
+        BoxCollider collider = buildingObject.AddComponent<BoxCollider>();
+        Mesh mesh = buildingObject.GetComponent<MeshFilter>().mesh;
+
+        collider.center = buildingObject.transform.parent.position + Vector3.up * mesh.bounds.size.y / 2.0f;
+        collider.size = mesh.bounds.size;
 
         return buildingObject;
     }

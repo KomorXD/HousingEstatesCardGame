@@ -20,6 +20,14 @@ public class TileScript : MonoBehaviour
             GameManager.Instance.GameParameters[property.Category] -= property.Value;
         }
 
+        GameManager.Instance.AvailableBombs--;
+
+        if(GameManager.Instance.AvailableBombs <= 0)
+        {
+            GameHUDManager.Instance.SetBombsInteractive(false);
+            GameManager.Instance.BombsSelected = false;
+        }
+
         cs.Despawn();
         DestroyImmediate(placedCard, true);
         placedCard = null;

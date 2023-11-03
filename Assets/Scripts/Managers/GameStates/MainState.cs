@@ -27,7 +27,7 @@ public class MainState : IGameState
 
     public void Update()
     {
-        if (!gm.BombsSelected)
+        if (!gm.BombsSelected || gm.AvailableBombs <= 0)
         {
             return;
         }
