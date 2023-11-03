@@ -24,14 +24,10 @@ public class MenuManager : MonoBehaviour
     [Header("Inputs")]
     [SerializeField] private TMP_InputField nickInput;
 
-    private void Awake()
-    {
-        startMenu.GetComponent<UIAnimator>().Left();
-    }
-
     private void Start()
     {
         AssignUIButtons();
+        startMenu.GetComponent<UIAnimator>().Left();
     }
 
     private void AssignUIButtons()
