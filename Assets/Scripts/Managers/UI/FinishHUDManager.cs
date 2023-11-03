@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+//! Class responsible for scene after player finished a session
 public class FinishHUDManager : MonoBehaviour
 {
     [SerializeField] private Image image;

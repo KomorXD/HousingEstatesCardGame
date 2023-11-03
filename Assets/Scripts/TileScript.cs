@@ -6,6 +6,7 @@ public class TileScript : MonoBehaviour
     private GameObject placedCard;
     private MeshRenderer meshRenderer;
 
+    //! Removes building from a tile, removes card's points from player
     public void ClearTile()
     {
         if (placedCard == null)

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
+//! Class responsible for managing UI for player name, points, requirements
 public class GameInfoHUDManager : MonoBehaviour, IHUDManager
 {
     private Image icon;
@@ -15,6 +15,7 @@ public class GameInfoHUDManager : MonoBehaviour, IHUDManager
         icon = GetComponentInChildren<Image>();
     }
 
+    //! Adds texture and sets nickname
     public void Init()
     {
         Texture2D iconTex = Resources.Load<Texture2D>(GameManager.Instance.GameDifficulty.IconPath);
@@ -25,16 +26,23 @@ public class GameInfoHUDManager : MonoBehaviour, IHUDManager
         UpdateUI();
     }
 
+    /**
+     * Sets activity
+     * 
+     * \param active Active flag
+     */
     public void SetActive(bool active)
     {
         gameObject.SetActive(active);
     }
     
+    //! In this case, does nothing
     public void SetInteractive(bool interactive)
     {
         ;
     }
 
+    //! Updates UI requirements list
     public void UpdateUI()
     {
         List<DifficultyRequirement> requirements = GameManager.Instance.GameDifficulty.Requirements;

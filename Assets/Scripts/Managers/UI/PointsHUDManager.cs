@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+//! Class responsible for managing current points UI element
 public class PointsHUDManager : MonoBehaviour, IHUDManager
 {
     private TMP_Text textarea;
@@ -11,6 +12,7 @@ public class PointsHUDManager : MonoBehaviour, IHUDManager
         textarea = GetComponentInChildren<TMP_Text>();
     }
 
+    //! Updates UI
     public void Init()
     {
         UpdateUI();
@@ -26,6 +28,7 @@ public class PointsHUDManager : MonoBehaviour, IHUDManager
         ;
     }
 
+    //! Updates points list with new values and indicators
     public void UpdateUI()
     {
         Dictionary<ParameterCategory, float> points = GameManager.Instance.GameParameters;

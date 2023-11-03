@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//! Class responsible for calling whole game UI
 [System.Serializable]
 public class GameHUDManager : MonoBehaviour, IHUDManager
 {
@@ -8,6 +9,7 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
 
     private List<IHUDManager> hudManagers;
 
+    //! Initializes each UI elements
     public void Init()
     {
         hudManagers = new()
@@ -25,6 +27,7 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         }
     }
 
+    //! Updates each UI elements
     public void UpdateUI()
     {
         foreach (var manager in hudManagers)
@@ -33,6 +36,7 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         }
     }
 
+    //! Sets bombs' UI interactivity
     public void SetBombsInteractive(bool interactive)
     {
         FindObjectOfType<BombsHUDManager>().SetInteractive(interactive);
@@ -43,6 +47,7 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         Instance = this;
     }
 
+    //! Sets each UI elements active flag
     public void SetActive(bool active)
     {
         foreach (var manager in hudManagers)
@@ -51,6 +56,7 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         }
     }
 
+    //! Sets each UI elements interactive flag
     public void SetInteractive(bool interactive)
     {
         foreach (var manager in hudManagers)

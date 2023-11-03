@@ -8,7 +8,11 @@ public class FPSCameraMovement : ICameraMovement
 
     private float velocityY = 0.0f;
 
-    //! Initializes an object
+    /**
+     * Intializes internal state, adds character controller component
+     * 
+     * \param cms parent CameraMoveScript
+     */
     public FPSCameraMovement(CameraMoveScript cms)
     {
         this.cms = cms;
@@ -45,14 +49,14 @@ public class FPSCameraMovement : ICameraMovement
             wishMove = wishMove.normalized * cms.speed;
         }
 
+        // Jumping and gravity
         if (!cc.isGrounded)
         {
             velocityY += cms.gravityForce * Time.deltaTime;
         }
-
-        if(Input.GetKeyDown(KeyCode.Space) && cc.isGrounded)
+        else
         {
-            velocityY = Mathf.Sqrt(-2.0f * cms.gravityForce * cms.jumpHeight);
+            velocityY = Input.GetKeyDown(KeyCode.Space) ? Mathf.Sqrt(-2.0f * cms.gravityForce * cms.jumpHeight) : 0.0f;
         }
 
         wishMove += velocityY * Vector3.up;

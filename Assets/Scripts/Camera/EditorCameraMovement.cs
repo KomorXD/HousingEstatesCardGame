@@ -5,7 +5,11 @@ public class EditorCameraMovement : ICameraMovement
 {
     private CameraMoveScript cms;
 
-    //! Initializes internal state
+    /**
+     * Intializes internal state
+     * 
+     * \param cms parent CameraMoveScript
+     */
     public EditorCameraMovement(CameraMoveScript cms)
     {
         this.cms = cms;
@@ -16,7 +20,7 @@ public class EditorCameraMovement : ICameraMovement
         cms.transform.LookAt(Vector3.zero);
     }
 
-    //! Checks for mouse input and updates camera ccordingly
+    //! Checks for mouse input and updates camera accordingly
     public void OnUpdate()
     {
         if (Input.GetMouseButton(1))

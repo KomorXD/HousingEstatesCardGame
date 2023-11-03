@@ -79,6 +79,7 @@ public class CardScript : MonoBehaviour
         return buildingObject;
     }
     
+    //! Despawns a building
     public void Despawn()
     {
         DestroyImmediate(buildingObject, true);

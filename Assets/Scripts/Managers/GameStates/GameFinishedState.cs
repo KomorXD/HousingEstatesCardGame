@@ -1,14 +1,17 @@
 using DG.Tweening;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//! Class responsible for controlling end game state
 public class GameFinishedState : IGameState
 {
     private float startTS;
     private float delay = 2.0f;
 
+    /**
+     * Initializes internal data and HUD
+     */
     public GameFinishedState()
     {
         CameraMoveScript cms = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<CameraMoveScript>();
@@ -22,6 +25,7 @@ public class GameFinishedState : IGameState
         startTS = Time.time;
     }
 
+    //! Called each frame, updating state
     public void Update()
     {
         if(Time.time - startTS >= delay)

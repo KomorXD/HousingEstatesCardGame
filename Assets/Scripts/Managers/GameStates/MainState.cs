@@ -1,10 +1,15 @@
-using System.Collections.Generic;
 using UnityEngine;
 
+//! State of the ongoing game
 public class MainState : IGameState
 {
     private GameManager gm;
 
+    /**
+     * Intializes internal state, destroys character controller, if it exists on a player
+     * 
+     * \param gameManager Parent game manager
+     */
     public MainState(GameManager gameManager)
     {
         gm = gameManager;
@@ -25,6 +30,7 @@ public class MainState : IGameState
         }
     }
 
+    //! Checks if any bomb was used on a building
     public void Update()
     {
         if (!gm.BombsSelected || gm.AvailableBombs <= 0)

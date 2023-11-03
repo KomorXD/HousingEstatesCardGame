@@ -45,6 +45,8 @@ public class CameraMoveScript : MonoBehaviour
     [NonSerialized] public Quaternion cameraRot;
 
     [SerializeField] private ICameraMovement cameraMoveMode;
+
+    //! Current camera movement mode
     public ICameraMovement CameraMode { get { return cameraMoveMode; } set { cameraMoveMode = value; } }
 
     //! Reads set rotation and assigns it, default to EditorCameraMovement

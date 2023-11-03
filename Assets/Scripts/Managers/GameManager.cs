@@ -16,12 +16,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<CardData> cardsDeck;
     [SerializeField] private bool bombsSelected;
 
+    //! Available bombs count
     public int AvailableBombs { get { return availableBombs; } set { availableBombs = value; } }
+
+    //! Selected card's data
     public CardData? SelectedCard { get { return selectedCard; } set { selectedCard = value; } }
+
+    //! Card available in a deck
     public List<CardData> Deck { get { return cardsDeck; } set { cardsDeck = value; } }
+
+    //! How many cards are left in a deck
     public int CardsLeft => cardsDeck.Count;
+
+    //! Whether bombs are selected
     public bool BombsSelected { get { return bombsSelected; } set { bombsSelected = value; } }
+
+    //! Set difficulty
     public Difficulty GameDifficulty => difficulty;
+
+    //! Parameter points
     public Dictionary<ParameterCategory, float> GameParameters => gameParameters;
 
     private void Awake()
@@ -38,7 +51,7 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    //! Sets up the game, draws random card at the end
+    //! Sets up the game
     void Start()
     {
         difficulty = GameData.Instance.GameDifficulty;
@@ -82,6 +95,11 @@ public class GameManager : MonoBehaviour
         gameState.Update();
     }
 
+    /**
+     * Changes game state
+     * 
+     * \param state New state
+     */
     public void SetState(IGameState state)
     {
         gameState = state;
@@ -90,7 +108,7 @@ public class GameManager : MonoBehaviour
     /**
      * Returns currently selected card
      * 
-     * \returns held card
+     * \returns Currently held card
      */
     public GameObject GetPlayerCard()
     {
@@ -108,23 +126,8 @@ public class GameManager : MonoBehaviour
         return cardObject;
     }
 
-    public CardData? GetPickedCard()
-    {
-        if(selectedCard == null)
-        {
-            return null;
-        }
-
-        CardData? ret = selectedCard;
-        selectedCard = null;
-
-        return ret;
-    }
-
     /**
      * Draws a random card from the deck, if there are any left
-     * 
-     * \returns a card or null if none is available
      */
     public void DrawRandomCard()
     {
@@ -184,6 +187,7 @@ public class GameManager : MonoBehaviour
     {
         cardsDeck.RemoveAt(index);
     }
+
     /**
      * Updates card at the given index
      * 

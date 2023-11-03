@@ -2,13 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//! Struct holding a parameter's requirement for a difficulty
 [System.Serializable]
 public struct DifficultyRequirement
 {
+    //! Card parameter
     public CardParameter Parameter;
+
+    //! Minimum required points
     public float Min;
+
+    //! Maximum allowed points
     public float Max;
 
+    //! Assigns values
     public DifficultyRequirement(CardParameter parameter, float min, float max)
     {
         Parameter = parameter;
@@ -16,25 +23,36 @@ public struct DifficultyRequirement
         Max = max;
     }
 
+    //! Checks for equality
     public static bool operator ==(DifficultyRequirement a, DifficultyRequirement b)
     {
         return a.Parameter.Category == b.Parameter.Category;
     }
 
+    //! Checks for !equality
     public static bool operator !=(DifficultyRequirement a, DifficultyRequirement b)
     {
         return !(a == b);
     }
 }
 
+//! Holds difficulty's data
 [System.Serializable]
 public struct Difficulty
 {
+    //! Difficulty's name
     public string Name;
+
+    //! Difficultie's icon path
     public string IconPath;
+
+    //! Difficultie's bombs count
     public int BombsCount;
+
+    //! Dofficulties requirements for each parameter
     public List<DifficultyRequirement> Requirements;
 
+    //! Assigns values
     public Difficulty(string name, string iconPath, int bombsCount, List<DifficultyRequirement> reqs)
     {
         Name = name;
@@ -44,13 +62,16 @@ public struct Difficulty
     }
 }
 
+//! Persistent object, holding defined difficulties
 public class DifficultiesManager : MonoBehaviour
 {
     public static DifficultiesManager Instance { get; private set; }
 
     [SerializeField] private List<Difficulty> difficulties;
+    //! Defined difficulties list
     public List<Difficulty> Difficulties => difficulties;
 
+    //! Intializes difficulties defined in code
     public void Init()
     {
         difficulties = new();
@@ -83,7 +104,12 @@ public class DifficultiesManager : MonoBehaviour
         difficulties.Add(diff);
     }
 
-    public void InitFromFile()
+    /**
+     * [NOT IMPLEMENTED] Intializes difficulties defined in file
+     * 
+     * \param path Path to a file containing difficulties definitions
+     */
+    public void InitFromFile(string path)
     {
         throw new NotImplementedException();
     }

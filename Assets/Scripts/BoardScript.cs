@@ -5,6 +5,8 @@ using UnityEngine;
 public class BoardScript : MonoBehaviour
 {
     private Vector3 boardCenter;
+
+    //! Board's center position
     public Vector3 BoardCenter => boardCenter;
     
     //! Dimension X of the board
@@ -17,6 +19,7 @@ public class BoardScript : MonoBehaviour
     private GameObject tilePrefab;
     private List<GameObject> _grid;
 
+    //! Spawns collider walls around board
     public void SpawnCollider()
     {
         BoxCollider collider = gameObject.AddComponent<BoxCollider>();
@@ -37,6 +40,7 @@ public class BoardScript : MonoBehaviour
 
     }
 
+    //! Removes collider walls around board
     public void RemoveCollider()
     {
         BoxCollider[] colliders = GetComponents<BoxCollider>();
@@ -47,6 +51,7 @@ public class BoardScript : MonoBehaviour
         }
     }
 
+    //! Loads data, populates board
     void Start()
     {
         tilePrefab = Resources.Load<GameObject>("Prefabs/BoardTile");

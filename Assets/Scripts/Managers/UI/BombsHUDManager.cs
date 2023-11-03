@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+//! Manages bombs button in-game
 [System.Serializable]
 public class BombsHUDManager : MonoBehaviour, IHUDManager, IPointerEnterHandler, IPointerExitHandler
 {
@@ -15,6 +16,7 @@ public class BombsHUDManager : MonoBehaviour, IHUDManager, IPointerEnterHandler,
     private Button bombsButton;
     private TMP_Text bombsLeftText;
 
+    //! Sets bomb texture, adds on click listener
     public void Init()
     {
         Texture2D bombTex = Resources.Load<Texture2D>("Textures/gragas_bomba");
@@ -24,16 +26,25 @@ public class BombsHUDManager : MonoBehaviour, IHUDManager, IPointerEnterHandler,
         UpdateUI();
     }
 
+    //! Updates text
     public void UpdateUI()
     {
         bombsLeftText.text = $"{(GameManager.Instance.BombsSelected ? "Bomba" : "Nej bomba :(")}" + $" {GameManager.Instance.AvailableBombs}";
     }
 
+    /** Sets component's activity
+     * 
+     * \param active flag
+     */
     public void SetActive(bool active)
     {
         gameObject.SetActive(active);
     }
 
+    /** Sets component's interactivity
+     * 
+     * \param interactive flag
+     */
     public void SetInteractive(bool interactive)
     {
         bombsButton.interactable = interactive;
@@ -58,11 +69,13 @@ public class BombsHUDManager : MonoBehaviour, IHUDManager, IPointerEnterHandler,
         // bombsButton.transform.DOScale(bombsButton.transform.localScale.x, scaleAnimationDuration).SetEase(Ease.InOutSine);
     }
 
+    //! Moves bomb slightly on pointer enter, event handler
     public void OnPointerEnter(PointerEventData eventData)
     {
         bombsButton.transform.DOMoveY(transform.position.y - animationDeltaY, moveAnimationDuration).SetEase(Ease.InOutSine);
     }
 
+    //! Moves bomb back on pointer end, event handler
     public void OnPointerExit(PointerEventData eventData)
     {
         bombsButton.transform.DOMoveY(transform.position.y, moveAnimationDuration).SetEase(Ease.InOutSine);
