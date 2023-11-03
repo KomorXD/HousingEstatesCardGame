@@ -12,7 +12,7 @@ public class DifficultyPanelScript : MonoBehaviour
 
     void Start()
     {
-        difficulties = GetComponent<DifficultiesManager>().Difficulties;
+        difficulties = DifficultiesManager.Instance.Difficulties;
 
         Vector3 startPos;
 
@@ -21,10 +21,10 @@ public class DifficultyPanelScript : MonoBehaviour
             startPos = CalcualteStartPos(firstButtonPos);
 
             GameObject diffButton = Resources.Load<GameObject>("Prefabs/Menu/DifficultyButtonUI");
-            diffButton.GetComponent<DifficultyButtonScript>().Init(difficulty);        
-            diffButton.name = $"{difficulty.Name}Button";
             diffButton = Instantiate(diffButton, this.transform);
-            diffButton.GetComponent<RectTransform>().localPosition = startPos;
+            diffButton.name = $"{difficulty.Name}Button";
+            diffButton.GetComponent<DifficultyButtonScript>().Init(difficulty);        
+            diffButton.GetComponent<RectTransform>().localPosition = startPos;      
 
             CalculateRowCol();
         }

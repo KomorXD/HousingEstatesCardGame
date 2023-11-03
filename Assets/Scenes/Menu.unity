@@ -1379,7 +1379,6 @@ GameObject:
   - component: {fileID: 1911261615}
   - component: {fileID: 1911261616}
   - component: {fileID: 1911261617}
-  - component: {fileID: 1911261618}
   m_Layer: 5
   m_Name: DifficultyMenu
   m_TagString: Untagged
@@ -1437,19 +1436,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6bf6f8b5e9df6459d1bf2626b61e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1911261618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1911261614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 496f24836e9c62f4a8718868b7e90481, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  difficulties: []
 --- !u!1001 &1951662751
 PrefabInstance:
   m_ObjectHideFlags: 0

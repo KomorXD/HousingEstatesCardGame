@@ -69,7 +69,7 @@ public class MenuManager : MonoBehaviour
         if (nickInput.text.Length < 1)
             return;
 
-        PlayerPrefs.SetString("nickname", nickInput.text);
+        GameData.Instance.Username = nickInput.text;
         SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
 
         Debug.Log(nickInput.text.Length);
