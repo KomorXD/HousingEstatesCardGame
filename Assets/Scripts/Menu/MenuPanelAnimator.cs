@@ -10,7 +10,7 @@ public class MenuPanelAnimator : MonoBehaviour
     {
         foreach (GameObject obj in objectToAnimate)
         {
-            obj.GetComponent<UIHorizontalAnimator>().Left();
+            obj.GetComponent<UIAnimator>().Left();
         }
     }
 
@@ -18,7 +18,7 @@ public class MenuPanelAnimator : MonoBehaviour
     {
         foreach (GameObject obj in objectToAnimate)
         {
-            obj.GetComponent<UIHorizontalAnimator>().Right();
+            obj.GetComponent<UIAnimator>().Right();
         }
     }
 

@@ -9,9 +9,9 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private GameObject startMenuPanel;
-    [SerializeField] private GameObject gameInputPanel;
-    [SerializeField] private GameObject difficultyPanel;
+    [SerializeField] private GameObject startMenu;
+    [SerializeField] private GameObject gameInput;
+    [SerializeField] private GameObject difficultyMenu;
 
     [Header("Butons")]
     [SerializeField] private Button startButton;
@@ -26,7 +26,7 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        startMenuPanel.GetComponent<MenuPanelAnimator>().Left();
+        startMenu.GetComponent<UIAnimator>().Left();
     }
 
     private void Start()
@@ -46,20 +46,20 @@ public class MenuManager : MonoBehaviour
 
     private void BackInputButtonClick()
     {
-        gameInputPanel.GetComponent<MenuPanelAnimator>().Right();
-        startMenuPanel.GetComponent<MenuPanelAnimator>().Right();
+        gameInput.GetComponent<UIAnimator>().Right();
+        startMenu.GetComponent<UIAnimator>().Right();
         nickInput.text = string.Empty;
     }
 
     private void OnStartButtonClick()
     {
-        startMenuPanel.GetComponent<MenuPanelAnimator>().Left();
-        gameInputPanel.GetComponent<MenuPanelAnimator>().Left();
+        startMenu.GetComponent<UIAnimator>().Left();
+        gameInput.GetComponent<UIAnimator>().Left();
     }
 
     private void OnQuitButtonClick()
     {
-        gameInputPanel.SetActive(false);
+        gameInput.SetActive(false);
         Application.Quit();
         Debug.Log("app closed");
     }
@@ -78,13 +78,13 @@ public class MenuManager : MonoBehaviour
 
     private void DiffButtonClick()
     {
-        gameInputPanel.GetComponent<MenuPanelAnimator>().Left();
-        difficultyPanel.GetComponent<MenuPanelAnimator>().Left();
+        gameInput.GetComponent<UIAnimator>().Left();
+        difficultyMenu.GetComponent<UIAnimator>().Left();
     }
 
     private void BackDiffButtonClick()
     {
-        difficultyPanel.GetComponent<MenuPanelAnimator>().Right();
-        gameInputPanel.GetComponent<MenuPanelAnimator>().Right();
+        difficultyMenu.GetComponent<UIAnimator>().Right();
+        gameInput.GetComponent<UIAnimator>().Right();
     }
 }

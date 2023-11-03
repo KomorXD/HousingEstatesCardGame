@@ -75,12 +75,12 @@ public class DifficultiesManager : MonoBehaviour
         });
         difficulties.Add(diff);
 
-        //diff = new Difficulty("VHard", "Textures/Difficulties/", new()
-        //{
-        //    new DifficultyRequirement(new CardParameter(ParameterCategory.FloorRatio, 13), 3, 300),
-        //    new DifficultyRequirement(new CardParameter(ParameterCategory.AverageFloors, 14), 4, 400)
-        //});
-        //difficulties.Add(diff);
+        diff = new Difficulty("VHard", "Textures/Difficulties/VHard", 2, new()
+        {
+            new DifficultyRequirement(new CardParameter(ParameterCategory.FloorRatio, 13), 3, 300),
+            new DifficultyRequirement(new CardParameter(ParameterCategory.AverageFloors, 14), 4, 400)
+        });
+        difficulties.Add(diff);
     }
 
     public void InitFromFile()

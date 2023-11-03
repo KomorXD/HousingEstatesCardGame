@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(RectTransform))]
-public class UIHorizontalAnimator : MonoBehaviour
+public class UIAnimator : MonoBehaviour
 {
     [SerializeField] private Ease easeType;
-    [SerializeField] private Vector3 finalPosition;
+    [SerializeField] private float finalX;
     [SerializeField] private float duration;
     [SerializeField] private float delayLeft;
     [SerializeField] private float delayRight;
 
     private RectTransform objectToAnimate;
+    private Vector3 finalPosition;
     private Vector2 startingPosition;
     private Vector2 currentPosition;
     private float positionDiff;
@@ -21,7 +22,7 @@ public class UIHorizontalAnimator : MonoBehaviour
     {
         objectToAnimate = GetComponent<RectTransform>();
         startingPosition = objectToAnimate.localPosition;
-        positionDiff = startingPosition.x - finalPosition.x;
+        positionDiff = startingPosition.x - finalX;
         currentPosition = startingPosition;
     }
 
@@ -35,18 +36,5 @@ public class UIHorizontalAnimator : MonoBehaviour
     {
         currentPosition.x += positionDiff;
         objectToAnimate.DOLocalMove(currentPosition, duration).SetEase(easeType).SetDelay(delayRight);
-    }
-
-    public void Init(Vector3 startingPosition, Vector3 finalPosition, float duration, float delayRight, float delayLeft )
-    {
-        this.transform.localPosition = startingPosition;
-        this.startingPosition = startingPosition;
-        this.finalPosition = finalPosition;
-        this.duration = duration;
-        this.delayRight = delayRight;
-        this.delayLeft = delayLeft;
-        objectToAnimate = GetComponent<RectTransform>();
-        positionDiff = startingPosition.x - finalPosition.x;
-        currentPosition = startingPosition;
     }
 }
