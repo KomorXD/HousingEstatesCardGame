@@ -10,6 +10,9 @@ public class GameData : MonoBehaviour
     [SerializeField] private string username;
     public string Username { get => username; set => username = value; }
 
+    [SerializeField] private bool playerWon;
+    public bool PlayerWon { get => playerWon; set => playerWon = value; }
+
     private void Awake()
     {
         if(Instance != null)
