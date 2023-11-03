@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     {
         // difficulty = GameData.Instance.GameDifficulty;
         difficulty = DifficultiesManager.Instance.Difficulties[1];
-        availableBombs = difficulty.BombsCount;
+        availableBombs = 2; // difficulty.BombsCount;
         selectedCard = null;
 
         cardsDeck = new List<CardData>

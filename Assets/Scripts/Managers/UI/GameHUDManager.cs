@@ -33,6 +33,11 @@ public class GameHUDManager : MonoBehaviour, IHUDManager
         }
     }
 
+    public void SetBombsInteractive(bool interactive)
+    {
+        FindObjectOfType<BombsHUDManager>().SetInteractive(interactive);
+    }
+
     private void Awake()
     {
         Instance = this;
