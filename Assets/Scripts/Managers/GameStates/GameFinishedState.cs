@@ -48,7 +48,7 @@ public class GameFinishedState : IGameState
             }
         }
 
-        PlayerPrefs.SetInt("player_won", requirementsMet ? 1 : 0);
+        GameData.Instance.PlayerWon = requirementsMet;
         SceneManager.LoadSceneAsync("FinishedScene", LoadSceneMode.Single);
     }
 }

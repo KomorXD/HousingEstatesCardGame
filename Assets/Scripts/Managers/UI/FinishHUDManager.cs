@@ -17,8 +17,7 @@ public class FinishHUDManager : MonoBehaviour
 
     private void Awake()
     {
-        bool playerWon = PlayerPrefs.GetInt("player_won") != 0;
-        string filename = playerWon ? "won" : "lost";
+        string filename = GameData.Instance.PlayerWon ? "won" : "lost";
 
         Texture2D tex = Resources.Load<Texture2D>($"Textures/{filename}");
         image.sprite = Sprite.Create(tex, new(0.0f, 0.0f, tex.width, tex.height), Vector2.zero);
