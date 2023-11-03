@@ -3,6 +3,7 @@ using UnityEngine;
 //! Persistent object holding game data
 public class GameData : MonoBehaviour
 {
+	//! Singletone instance
     public static GameData Instance {  get; private set; }
 
     [SerializeField] private Difficulty difficulty;

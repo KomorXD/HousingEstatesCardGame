@@ -65,6 +65,7 @@ public struct Difficulty
 //! Persistent object, holding defined difficulties
 public class DifficultiesManager : MonoBehaviour
 {
+	//! Singleton instance
     public static DifficultiesManager Instance { get; private set; }
 
     [SerializeField] private List<Difficulty> difficulties;

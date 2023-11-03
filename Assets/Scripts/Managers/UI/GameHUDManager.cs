@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameHUDManager : MonoBehaviour, IHUDManager
 {
+	//! Singleton instance
     public static GameHUDManager Instance { get; private set; }
 
     private List<IHUDManager> hudManagers;

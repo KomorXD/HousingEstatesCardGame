@@ -159,7 +159,6 @@ public class GameManager : MonoBehaviour
      * 
      * \param color - card's color
      * \param value - card's value
-     * \param size (DEPRACATED) - card's size
      * \param parameters - list of card's parameters and values
      */
     public void ConstructNewCardInDeck(CardColor color, CardValue value, List<CardParameter> parameters)

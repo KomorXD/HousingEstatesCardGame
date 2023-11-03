@@ -44,8 +44,9 @@ public struct CardParameter
 //! A class responsible for managing a single card behaviour
 public class CardScript : MonoBehaviour
 {
-    //! Card's data
     [SerializeField] private CardData cardData;
+	
+    //! Card's data
     public CardData Data { get { return cardData; } }
     
     private GameObject buildingObject;
