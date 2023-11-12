@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 //! Class responsible for interacting with each of the tile
 public class TileScript : MonoBehaviour
 {
     private GameObject placedCard;
     private MeshRenderer meshRenderer;
+    private NavMeshSurface surface;
 
     //! Removes building from a tile, removes card's points from player
     public void ClearTile()
@@ -33,12 +35,15 @@ public class TileScript : MonoBehaviour
         DestroyImmediate(placedCard, true);
         placedCard = null;
 
+        surface.BuildNavMesh();
+
         GameHUDManager.Instance.UpdateUI();
     }
 
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
+        surface = FindObjectOfType<BoardScript>().gameObject.GetComponent<NavMeshSurface>();
     }
 
     //! Places a new card, if the tile is free
@@ -71,7 +76,29 @@ public class TileScript : MonoBehaviour
             GameManager.Instance.GameParameters[property.Category] += property.Value;
         }
 
+        SpawnPedestrians();
+        surface.BuildNavMesh();
+
         GameHUDManager.Instance.UpdateUI();
+    }
+
+    private void SpawnPedestrians()
+    {
+        GameObject pedestrianPrefab = Resources.Load<GameObject>("Prefabs/Pedestrian");
+        Vector3 flatScale = new(transform.localScale.x, 0.0f, transform.localScale.z);
+        Vector3 offsetPos = transform.position - flatScale / 2.0f;
+
+        GameObject pedestrian = Instantiate(pedestrianPrefab);
+        pedestrian.transform.position = offsetPos + Vector3.right * flatScale.x;
+
+        pedestrian = Instantiate(pedestrianPrefab);
+        pedestrian.transform.position = offsetPos + Vector3.forward * flatScale.z;
+
+        pedestrian = Instantiate(pedestrianPrefab);
+        pedestrian.transform.position = offsetPos + Vector3.right * flatScale.x + Vector3.forward * flatScale.z;
+
+        pedestrian = Instantiate(pedestrianPrefab);
+        pedestrian.transform.position = offsetPos;
     }
 
     private void OnMouseEnter()
