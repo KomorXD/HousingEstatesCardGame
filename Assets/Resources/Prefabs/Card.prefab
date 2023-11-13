@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2119504736905522660}
   - component: {fileID: 2543449829943808415}
+  - component: {fileID: 5677322355572982853}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -44,3 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d22e57f27e27f74bb33a71e3f35e9ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardData:
+    Color: 0
+    Value: 0
+    Parameters: []
+--- !u!114 &5677322355572982853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3162338493967124938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89467311de50cf24eb21eda09814acc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fountainPositions: []
