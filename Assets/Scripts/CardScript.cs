@@ -51,6 +51,8 @@ public class CardScript : MonoBehaviour
     
     private GameObject buildingObject;
     private GameObject fountainObject;
+    private GameObject treeObject;
+    private List<GameObject> treesObjects = new List<GameObject>();
 
     //! Intializes data and grabs an apropriate model, based on card's data
     public void Init(CardData data)
@@ -91,7 +93,7 @@ public class CardScript : MonoBehaviour
 
         GameObject fountainPrefab = Resources.Load<GameObject>("Prefabs/Fountain");
 
-        fountainPrefab.name = $"Fountain_{cardData.Color}_{cardData.Value}";
+        fountainPrefab.name = $"Fountain";
         fountainPrefab.transform.position = position + offset;
 
         fountainObject = Instantiate(fountainPrefab, gameObject.transform);
@@ -101,9 +103,34 @@ public class CardScript : MonoBehaviour
         return fountainObject;
     }
 
-    //! Despawns a building
+    //! Spawns trees
+    public List<GameObject> PlaceTrees(Vector3 position)
+    {
+        List<Vector3> positions = GetComponent< CardObjectGenerator>().GetTreesPosition();
+
+        int i = 0;
+        foreach (Vector3 pos in positions)
+        {
+            GameObject treePrefab = GetComponent<CardObjectGenerator>().GetTree();
+
+            treePrefab.name = $"Tree{i}";
+            treePrefab.transform.position = position + pos;
+
+            treeObject = Instantiate(treePrefab, gameObject.transform);
+            treeObject.name = treePrefab.name;
+            treeObject.layer = LayerMask.NameToLayer("CardBuilding");     
+            treesObjects.Add(treeObject);
+            i++;
+        }
+        return treesObjects;
+    }
+
+    //! Despawns objects on card
     public void Despawn()
     {
         DestroyImmediate(buildingObject, true);
+        DestroyImmediate(fountainObject, true);
+        foreach(var tree in treesObjects)
+            DestroyImmediate(tree, tree);
     }
 }

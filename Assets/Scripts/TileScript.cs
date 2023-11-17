@@ -71,6 +71,7 @@ public class TileScript : MonoBehaviour
         CardScript cs = placedCard.GetComponent<CardScript>();
         cs.PlaceBuilding(transform.position + Vector3.up * transform.localScale.y / 2.0f);
         cs.PlaceFountain(transform.position + Vector3.up * transform.localScale.y / 2.0f);
+        cs.PlaceTrees(transform.position + Vector3.up * transform.localScale.y / 2.0f);
         
         foreach(var property in cs.Data.Parameters)
         {
