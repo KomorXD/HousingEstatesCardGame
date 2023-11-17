@@ -50,6 +50,7 @@ public class CardScript : MonoBehaviour
     public CardData Data { get { return cardData; } }
     
     private GameObject buildingObject;
+    private GameObject fountainObject;
 
     //! Intializes data and grabs an apropriate model, based on card's data
     public void Init(CardData data)
@@ -79,7 +80,27 @@ public class CardScript : MonoBehaviour
 
         return buildingObject;
     }
-    
+
+    //! Spawns fountain
+    public GameObject PlaceFountain(Vector3 position)
+    {
+        Vector3 offset = GetComponent<CardObjectGenerator>().GetFountainPosition();
+
+        if (offset == Vector3.zero)
+            return null;
+
+        GameObject fountainPrefab = Resources.Load<GameObject>("Prefabs/Fountain");
+
+        fountainPrefab.name = $"Fountain_{cardData.Color}_{cardData.Value}";
+        fountainPrefab.transform.position = position + offset;
+
+        fountainObject = Instantiate(fountainPrefab, gameObject.transform);
+        fountainObject.name = fountainPrefab.name;
+        fountainObject.layer = LayerMask.NameToLayer("CardBuilding");
+
+        return fountainObject;
+    }
+
     //! Despawns a building
     public void Despawn()
     {
