@@ -61,15 +61,16 @@ public class CardScript : MonoBehaviour
     }
 
     //! Spawns card and it's model
-    public GameObject PlaceBuilding(Vector3 position)
+    public GameObject PlaceBuilding(Vector3 position, Quaternion rotation)
     {
         GameObject buildingPrefab = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
         
         buildingPrefab.name = $"Model_{cardData.Color}_{cardData.Value}";
-        buildingPrefab.transform.position = position;
-        buildingPrefab.transform.localScale = 2.7f * 3.0f * Vector3.one;
         
         buildingObject = Instantiate(buildingPrefab, gameObject.transform);
+        buildingObject.transform.position = position;
+        buildingObject.transform.localScale = 2.7f * 3.0f * Vector3.one;
+        buildingObject.transform.localRotation = rotation;
         buildingObject.name = $"Model_{cardData.Color}_{cardData.Value}";
         buildingObject.layer = LayerMask.NameToLayer("CardBuilding");
         Destroy(buildingObject.GetComponent<MeshCollider>()); // for now, since placeholder models have that
@@ -93,12 +94,10 @@ public class CardScript : MonoBehaviour
 
         GameObject fountainPrefab = Resources.Load<GameObject>("Prefabs/Fountain");
 
-        fountainPrefab.name = $"Fountain";
-        fountainPrefab.transform.position = position + offset;
-
         fountainObject = Instantiate(fountainPrefab, gameObject.transform);
-        fountainObject.name = fountainPrefab.name;
+        fountainObject.name = $"Fountain";
         fountainObject.layer = LayerMask.NameToLayer("CardBuilding");
+        fountainObject.transform.position = position + offset;
 
         return fountainObject;
     }
@@ -113,12 +112,10 @@ public class CardScript : MonoBehaviour
         {
             GameObject treePrefab = GetComponent<CardObjectGenerator>().GetTree();
 
-            treePrefab.name = $"Tree{i}";
-            treePrefab.transform.position = position + pos;
-
             treeObject = Instantiate(treePrefab, gameObject.transform);
-            treeObject.name = treePrefab.name;
-            treeObject.layer = LayerMask.NameToLayer("CardBuilding");     
+            treeObject.name = $"Tree{i}";
+            treeObject.layer = LayerMask.NameToLayer("CardBuilding");
+            treeObject.transform.position = position + pos;
             treesObjects.Add(treeObject);
             i++;
         }
@@ -131,6 +128,6 @@ public class CardScript : MonoBehaviour
         DestroyImmediate(buildingObject, true);
         DestroyImmediate(fountainObject, true);
         foreach(var tree in treesObjects)
-            DestroyImmediate(tree, tree);
+            DestroyImmediate(tree, true);
     }
 }
