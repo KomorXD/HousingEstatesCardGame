@@ -78,8 +78,8 @@ public class TileScript : MonoBehaviour
             transform.localScale.z * bs.PlacementDirection.x / 2.0f
         );
         cs.PlaceBuilding(adjustedPosition, bs.PlacementRotation);
-        cs.PlaceFountain(adjustedPosition);
-        cs.PlaceTrees(adjustedPosition);
+        cs.PlaceFountain(adjustedPosition, bs.PlacementRotation);
+        cs.PlaceTrees(adjustedPosition, bs.PlacementRotation);
         
         foreach(var property in cs.Data.Parameters)
         {

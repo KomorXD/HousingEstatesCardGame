@@ -65,8 +65,6 @@ public class CardScript : MonoBehaviour
     {
         GameObject buildingPrefab = Resources.Load<GameObject>("Prefabs/Triangularity/ColorfulCity/Prefabs/Building1_a_MainHall_LP_0");
         
-        buildingPrefab.name = $"Model_{cardData.Color}_{cardData.Value}";
-        
         buildingObject = Instantiate(buildingPrefab, gameObject.transform);
         buildingObject.transform.position = position;
         buildingObject.transform.localScale = 2.7f * 3.0f * Vector3.one;
@@ -85,7 +83,7 @@ public class CardScript : MonoBehaviour
     }
 
     //! Spawns fountain
-    public GameObject PlaceFountain(Vector3 position)
+    public GameObject PlaceFountain(Vector3 position, Quaternion rotation)
     {
         Vector3 offset = GetComponent<CardObjectGenerator>().GetFountainPosition();
 
@@ -98,12 +96,13 @@ public class CardScript : MonoBehaviour
         fountainObject.name = $"Fountain";
         fountainObject.layer = LayerMask.NameToLayer("CardBuilding");
         fountainObject.transform.position = position + offset;
+        fountainObject.transform.Rotate(Vector3.up, rotation.eulerAngles.y);
 
         return fountainObject;
     }
 
     //! Spawns trees
-    public List<GameObject> PlaceTrees(Vector3 position)
+    public List<GameObject> PlaceTrees(Vector3 position, Quaternion rotation)
     {
         List<Vector3> positions = GetComponent< CardObjectGenerator>().GetTreesPosition();
 
@@ -116,6 +115,7 @@ public class CardScript : MonoBehaviour
             treeObject.name = $"Tree{i}";
             treeObject.layer = LayerMask.NameToLayer("CardBuilding");
             treeObject.transform.position = position + pos;
+            treeObject.transform.Rotate(Vector3.up, rotation.eulerAngles.y);
             treesObjects.Add(treeObject);
             i++;
         }
