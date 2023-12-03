@@ -7,6 +7,7 @@ public class TileScript : MonoBehaviour
     private GameObject placedCard;
     private MeshRenderer meshRenderer;
     private NavMeshSurface surface;
+    private TileScript neighbour;
 
     //! Removes building from a tile, removes card's points from player
     public void ClearTile()
@@ -50,7 +51,7 @@ public class TileScript : MonoBehaviour
     private void OnMouseDown()
     {
         // Trying to place a card on top of another
-        if (placedCard || GameManager.Instance.BombsSelected)
+        if (placedCard || GameManager.Instance.BombsSelected || !neighbour || neighbour.placedCard)
         {
             return;
         }
@@ -63,15 +64,22 @@ public class TileScript : MonoBehaviour
         }
 
         placedCard = Instantiate(placedCard);
+        neighbour.placedCard = placedCard;
         
         CardData data = placedCard.GetComponent<CardScript>().Data;
         placedCard.name = $"Card_{data.Color}_{data.Value}";
         placedCard.transform.parent = gameObject.transform;
 
         CardScript cs = placedCard.GetComponent<CardScript>();
-        cs.PlaceBuilding(transform.position + Vector3.up * transform.localScale.y / 2.0f);
-        cs.PlaceFountain(transform.position + Vector3.up * transform.localScale.y / 2.0f);
-        cs.PlaceTrees(transform.position + Vector3.up * transform.localScale.y / 2.0f);
+        BoardScript bs = FindObjectOfType<BoardScript>();
+        Vector3 adjustedPosition = transform.position + Vector3.up * transform.localScale.y / 2.0f + new Vector3(
+            transform.localScale.x * bs.PlacementDirection.z / 2.0f,
+            0.0f,
+            transform.localScale.z * bs.PlacementDirection.x / 2.0f
+        );
+        cs.PlaceBuilding(adjustedPosition, bs.PlacementRotation);
+        cs.PlaceFountain(adjustedPosition);
+        cs.PlaceTrees(adjustedPosition);
         
         foreach(var property in cs.Data.Parameters)
         {
@@ -103,15 +111,36 @@ public class TileScript : MonoBehaviour
         pedestrian.transform.position = offsetPos;
     }
 
+    private void ColorPlane(Color color)
+    {
+        meshRenderer.material.color = color;
+    }
+
     private void OnMouseEnter()
     {
         Color color = GameManager.Instance.BombsSelected ? Color.red : Color.cyan;
+        ColorPlane(color);
 
-        meshRenderer.material.color = color;
+        TileScript neighbourTile = FindObjectOfType<BoardScript>().GetNeighbour(this)?.GetComponent<TileScript>();
+        if(neighbourTile == null)
+        {
+            neighbour = null;
+            Debug.Log("Reaching out of the grid");
+
+            return;
+        }
+
+        neighbour = neighbourTile;
+        neighbour.ColorPlane(color);
     }
 
     private void OnMouseExit()
     {
-        meshRenderer.material.color = Color.white;
+        ColorPlane(Color.white);
+
+        if(neighbour != null)
+        {
+            neighbour.ColorPlane(Color.white);
+        }
     }
 }
