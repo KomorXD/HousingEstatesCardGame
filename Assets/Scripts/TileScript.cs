@@ -92,6 +92,7 @@ public class TileScript : MonoBehaviour
         GameHUDManager.Instance.UpdateUI();
     }
 
+    //! Spawn pedestrians, when a building is placed
     private void SpawnPedestrians()
     {
         GameObject pedestrianPrefab = Resources.Load<GameObject>("Prefabs/Pedestrian");
@@ -111,6 +112,7 @@ public class TileScript : MonoBehaviour
         pedestrian.transform.position = offsetPos;
     }
 
+    //! Colors plane to the given color
     private void ColorPlane(Color color)
     {
         meshRenderer.material.color = color;

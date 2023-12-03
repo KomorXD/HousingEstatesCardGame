@@ -20,9 +20,11 @@ public class BoardScript : MonoBehaviour
     private List<GameObject> _grid;
 
     private Vector3 placementDirection;
+    //! Currently chosen direction, linked to rotation
     public Vector3 PlacementDirection => placementDirection;
 
     private Quaternion placementRotation;
+    //! Currently chosen rotation, linked to direction
     public Quaternion PlacementRotation => placementRotation;
 
     private int directionsIdx = 0;
@@ -73,6 +75,7 @@ public class BoardScript : MonoBehaviour
         }
     }
     
+    //! Returns a neighbouring tile, relative to calling tile position, based on current direction
     public GameObject? GetNeighbour(TileScript caller)
     {
         int callerIdx = _grid.IndexOf(caller.gameObject);
@@ -106,6 +109,8 @@ public class BoardScript : MonoBehaviour
         PopulateBoard();
     }
 
+
+    //! Checks for key input
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q))
