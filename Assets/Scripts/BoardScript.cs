@@ -19,6 +19,28 @@ public class BoardScript : MonoBehaviour
     private GameObject tilePrefab;
     private List<GameObject> _grid;
 
+    private Vector3 placementDirection;
+    public Vector3 PlacementDirection => placementDirection;
+
+    private Quaternion placementRotation;
+    public Quaternion PlacementRotation => placementRotation;
+
+    private int directionsIdx = 0;
+    private readonly Vector3[] directions =
+    {
+        new( 1.0f, 0.0f,  0.0f),
+        new( 0.0f, 0.0f,  1.0f),
+        new(-1.0f, 0.0f,  0.0f),
+        new( 0.0f, 0.0f, -1.0f)
+    };
+    private readonly Quaternion[] rotations =
+    {
+        Quaternion.Euler( 0.0f, 0.0f,   0.0f ),
+        Quaternion.Euler( 0.0f, 90.0f,  0.0f ),
+        Quaternion.Euler( 0.0f, 180.0f, 0.0f ),
+        Quaternion.Euler( 0.0f, 270.0f, 0.0f )
+    };
+
     //! Spawns collider walls around board
     public void SpawnCollider()
     {
@@ -50,6 +72,25 @@ public class BoardScript : MonoBehaviour
             Destroy(collider);
         }
     }
+    
+    public GameObject? GetNeighbour(TileScript caller)
+    {
+        int callerIdx = _grid.IndexOf(caller.gameObject);
+        int callerW = callerIdx % _width;
+        int callerH = callerIdx / _width;
+
+        int neighbourIdx = callerIdx + (int)placementDirection.z * _width + (int)placementDirection.x;
+        int neighbourW = neighbourIdx % _width;
+        int neighbourH = neighbourIdx / _width;
+
+        if(neighbourIdx < 0 || neighbourIdx >= _grid.Count
+            || (callerW != neighbourW && callerH != neighbourH))
+        {
+            return null;
+        }
+
+        return _grid[neighbourIdx];
+    }
 
     //! Loads data, populates board
     void Start()
@@ -57,7 +98,22 @@ public class BoardScript : MonoBehaviour
         tilePrefab = Resources.Load<GameObject>("Prefabs/BoardTile");
         _grid = new List<GameObject>();
         
+        placementDirection = directions[directionsIdx];
+        placementRotation = rotations[directionsIdx];
+
+        directionsIdx = (directionsIdx + 1) % directions.Length;
+
         PopulateBoard();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            placementDirection = directions[directionsIdx];
+            placementRotation = rotations[directionsIdx];
+            directionsIdx = (directionsIdx + 1) % directions.Length;
+        }
     }
 
     /**
@@ -75,9 +131,9 @@ public class BoardScript : MonoBehaviour
 
         Vector3 pivotOffset = new Vector3(sizeX, 0.0f, sizeZ) / 2.0f;
         
-        for (int i = 0; i < _width; i++)
+        for (int i = 0; i < _height; i++)
         {
-            for (int j = 0; j < _height; j++)
+            for (int j = 0; j < _width; j++)
             {
                 GameObject sqr = Instantiate(tilePrefab, _env.transform);
                 sqr.transform.position = new Vector3(sizeX * i - offsetX, 0.0f, sizeZ * j - offsetZ) + pivotOffset;
