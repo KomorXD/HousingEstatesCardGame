@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -101,7 +102,10 @@ public class TileScript : MonoBehaviour
         cs.PlaceFountain(adjustedPosition, bs.PlacementRotation);
         cs.PlaceTrees(adjustedPosition, bs.PlacementRotation);
 
-        TileScript neighbourTile = FindObjectOfType<BoardScript>().GetNeighbour(this)?.GetComponent<TileScript>();
+        // Xddd
+        TileScript neighbourTile = bs.GetNeighbour(this)?.GetComponent<TileScript>();
+        TileScript[] neighbourTiles = bs.GetNeighoursAround(this).Select(tile => tile.GetComponent<TileScript>()).ToArray();
+        TileScript[] neighbourNeighbourTiles = bs.GetNeighoursAround(neighbourTile).Select(tile => tile.GetComponent<TileScript>()).ToArray();
         
         foreach (var property in cs.Data.Parameters)
         {
@@ -117,8 +121,25 @@ public class TileScript : MonoBehaviour
                 value *= 2.0f;
             }
 
+            foreach(TileScript ts in neighbourTiles)
+            {
+                if(ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
+                {
+                    value *= 1.25f;
+                }
+            }
+
+            foreach(TileScript ts in neighbourNeighbourTiles)
+            {
+                if(ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
+                {
+                    value *= 1.25f;
+                }
+            }
+
             GameManager.Instance.GameParameters[property.Category] += value;
         }
+        // end of Xdd
 
         SpawnPedestrians();
         surface.BuildNavMesh();
