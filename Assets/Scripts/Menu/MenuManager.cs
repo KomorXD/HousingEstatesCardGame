@@ -25,10 +25,6 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button backInputButton;
     // Reference to the play button
     [SerializeField] private Button playButton;
-    // Reference to the difficulty button
-    [SerializeField] private Button diffButton;
-    // Reference to the back difficulty button
-    [SerializeField] private Button backDiffButton; 
 
     [Header("Inputs")]
     // Reference to the nickname input field
@@ -47,8 +43,6 @@ public class MenuManager : MonoBehaviour
         quitButton.onClick.AddListener(OnQuitButtonClick);
         backInputButton.onClick.AddListener(BackInputButtonClick);
         playButton.onClick.AddListener(PlayButtonClick);
-        diffButton.onClick.AddListener(DiffButtonClick);
-        backDiffButton.onClick.AddListener(BackDiffButtonClick);
     }
 
     //! Handle the action when the back input button is clicked
@@ -81,23 +75,8 @@ public class MenuManager : MonoBehaviour
             return;
 
         GameData.Instance.Username = nickInput.text; 
-        SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single); 
-        Debug.Log(nickInput.text.Length);
-        Debug.Log(nickInput.text); 
-    }
-
-    //! Handle the action when the difficulty button is clicked
-    private void DiffButtonClick()
-    {
-        gameInput.GetComponent<UIAnimator>().Left(); 
-        difficultyMenu.GetComponent<UIAnimator>().Left(); 
-    }
-
-    //! Handle the action when the back difficulty button is clicked
-    private void BackDiffButtonClick()
-    {
-        difficultyMenu.GetComponent<UIAnimator>().Right(); 
-        gameInput.GetComponent<UIAnimator>().Right(); 
+        gameInput.GetComponent<UIAnimator>().Left();
+        difficultyMenu.GetComponent<UIAnimator>().Left();
     }
 }
 

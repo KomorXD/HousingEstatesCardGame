@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 //! A class responsible for managing a difficulty selection button behavior
 public class DifficultyButtonScript : MonoBehaviour
@@ -26,5 +27,11 @@ public class DifficultyButtonScript : MonoBehaviour
     public void SelectDifficulty()
     {
         GameData.Instance.GameDifficulty = difficulty;
+    }
+
+    //! Called when the difficulty button is clicked, starts the game
+    public void StartGame()
+    {
+        SceneManager.LoadSceneAsync("GameScene", LoadSceneMode.Single);
     }
 }
