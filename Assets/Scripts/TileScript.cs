@@ -8,6 +8,10 @@ public class TileScript : MonoBehaviour
     private MeshRenderer meshRenderer;
     private NavMeshSurface surface;
     private TileScript neighbour;
+    private Color originalColor;
+
+    private ParameterCategory? bonusParameter;
+    public ParameterCategory? BonusParam => bonusParameter;
 
     //! Removes building from a tile, removes card's points from player
     public void ClearTile()
@@ -45,6 +49,22 @@ public class TileScript : MonoBehaviour
     {
         meshRenderer = GetComponent<MeshRenderer>();
         surface = FindObjectOfType<BoardScript>().gameObject.GetComponent<NavMeshSurface>();
+
+        if(Random.Range(0.0f, 1.0f) > 0.9f)
+        {
+            bonusParameter = (ParameterCategory)Random.Range(1, 6);
+            originalColor.r = (int)bonusParameter & 1;
+            originalColor.g = (int)bonusParameter & 2;
+            originalColor.b = (int)bonusParameter & 4;
+            originalColor.a = 1.0f;
+            ColorPlane(originalColor);
+
+            return;
+        }
+
+        originalColor = Color.white;
+        ColorPlane(originalColor);
+        bonusParameter = null;
     }
 
     //! Places a new card, if the tile is free
@@ -80,10 +100,24 @@ public class TileScript : MonoBehaviour
         cs.PlaceBuilding(adjustedPosition, bs.PlacementRotation);
         cs.PlaceFountain(adjustedPosition, bs.PlacementRotation);
         cs.PlaceTrees(adjustedPosition, bs.PlacementRotation);
+
+        TileScript neighbourTile = FindObjectOfType<BoardScript>().GetNeighbour(this)?.GetComponent<TileScript>();
         
-        foreach(var property in cs.Data.Parameters)
+        foreach (var property in cs.Data.Parameters)
         {
-            GameManager.Instance.GameParameters[property.Category] += property.Value;
+            float value = property.Value;
+
+            if(bonusParameter != null && bonusParameter == property.Category)
+            {
+                value *= 2.0f;
+            }
+
+            if(neighbourTile != null && neighbourTile.bonusParameter == property.Category)
+            {
+                value *= 2.0f;
+            }
+
+            GameManager.Instance.GameParameters[property.Category] += value;
         }
 
         SpawnPedestrians();
@@ -138,11 +172,11 @@ public class TileScript : MonoBehaviour
 
     private void OnMouseExit()
     {
-        ColorPlane(Color.white);
+        ColorPlane(originalColor);
 
         if(neighbour != null)
         {
-            neighbour.ColorPlane(Color.white);
+            neighbour.ColorPlane(neighbour.originalColor);
         }
     }
 }
