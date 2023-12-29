@@ -14,12 +14,16 @@ public struct CardData
     //! Card's parameters
     public List<CardParameter> Parameters;
 
+    //! Card's prefered noighbouring parameter
+    public ParameterCategory PreferedNeighbour;
+
     //! Intializes properties with given values
-    public CardData(CardColor color, CardValue value, List<CardParameter> parameters)
+    public CardData(CardColor color, CardValue value, List<CardParameter> parameters, ParameterCategory prefered)
     {
         Color = color;
         Value = value;
         Parameters = parameters;
+        PreferedNeighbour = prefered;
     }
 }
 

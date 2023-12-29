@@ -65,12 +65,12 @@ public class GameManager : MonoBehaviour
                 new CardParameter(ParameterCategory.GreenSpaceIndex, 10),
                 new CardParameter(ParameterCategory.Trees, 20),
                 new CardParameter(ParameterCategory.GrossSapceIndex, 3),
-            }),
+            }, ParameterCategory.FloorRatio),
             new CardData(CardColor.Diamonds, CardValue.King, new()
             {
                 new CardParameter(ParameterCategory.Trees, 2),
                 new CardParameter(ParameterCategory.GrossSapceIndex, 31),
-            }),
+            }, ParameterCategory.DwellingsPerHa),
             new CardData(CardColor.Spades, CardValue.Eight, new()
             {
                 new CardParameter(ParameterCategory.DwellingsPerHa, 1),
@@ -79,11 +79,11 @@ public class GameManager : MonoBehaviour
                 new CardParameter(ParameterCategory.GrossSapceIndex, 1),
                 new CardParameter(ParameterCategory.AverageFloors, 1),
                 new CardParameter(ParameterCategory.FloorRatio, 1),
-            }),
+            }, ParameterCategory.Trees),
             new CardData(CardColor.Clubs, CardValue.Seven, new()
             {
                 new CardParameter(ParameterCategory.GreenSpaceIndex, 1),
-            })
+            }, ParameterCategory.Trees)
         };
 
         GameHUDManager.Instance.Init();
@@ -161,9 +161,9 @@ public class GameManager : MonoBehaviour
      * \param value - card's value
      * \param parameters - list of card's parameters and values
      */
-    public void ConstructNewCardInDeck(CardColor color, CardValue value, List<CardParameter> parameters)
+    public void ConstructNewCardInDeck(CardColor color, CardValue value, List<CardParameter> parameters, ParameterCategory pref)
     {
-        cardsDeck.Add(new CardData(color, value, parameters));
+        cardsDeck.Add(new CardData(color, value, parameters, pref));
     }
 
     /**

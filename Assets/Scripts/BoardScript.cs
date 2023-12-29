@@ -94,6 +94,31 @@ public class BoardScript : MonoBehaviour
 
         return _grid[neighbourIdx];
     }
+    
+    //! Returns neighbouring tiles, relative to calling tile position and around
+    public GameObject[] GetNeighoursAround(TileScript caller)
+    {
+        List<GameObject> ret = new();
+
+        int callerIdx = _grid.IndexOf(caller.gameObject);
+        int callerW = callerIdx % _width;
+        int callerH = callerIdx / _width;
+
+        foreach(Vector3 dir in directions)
+        {
+            int neighbourIdx = callerIdx + (int)dir.z * _width + (int)dir.x;
+            int neighbourW = neighbourIdx % _width;
+            int neighbourH = neighbourIdx / _width;
+
+            if (!(neighbourIdx < 0 || neighbourIdx >= _grid.Count
+                || (callerW != neighbourW && callerH != neighbourH)))
+            {
+                ret.Add(_grid[neighbourIdx]);
+            }
+        }
+
+        return ret.ToArray();
+    }
 
     //! Loads data, populates board
     void Start()

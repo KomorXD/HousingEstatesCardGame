@@ -51,7 +51,7 @@ public class TileScript : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         surface = FindObjectOfType<BoardScript>().gameObject.GetComponent<NavMeshSurface>();
 
-        if (Random.Range(0.0f, 1.0f) > 0.9f)
+        if(Random.Range(0.0f, 1.0f) > 0.9f)
         {
             bonusParameter = (ParameterCategory)Random.Range(1, 6);
             originalColor.r = (int)bonusParameter & 1;
@@ -111,27 +111,29 @@ public class TileScript : MonoBehaviour
         {
             float value = property.Value;
 
-            if (bonusParameter != null && bonusParameter == property.Category)
+            if(bonusParameter != null && bonusParameter == property.Category)
+
             {
                 value *= 2.0f;
             }
 
-            if (neighbourTile != null && neighbourTile.bonusParameter == property.Category)
+            if(neighbourTile != null && neighbourTile.bonusParameter == property.Category)
             {
                 value *= 2.0f;
             }
 
-            foreach (TileScript ts in neighbourTiles)
+
+            foreach(TileScript ts in neighbourTiles)
             {
-                if (ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
+                if(ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
                 {
                     value *= 1.25f;
                 }
             }
 
-            foreach (TileScript ts in neighbourNeighbourTiles)
+            foreach(TileScript ts in neighbourNeighbourTiles)
             {
-                if (ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
+                if(ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
                 {
                     value *= 1.25f;
                 }
