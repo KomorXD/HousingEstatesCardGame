@@ -1,24 +1,40 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using TMPro.EditorUtilities;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CardImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public CardData cardData;
     public GameObject card;
+    private CardData cardData;
     private float posY;
+    private Button button;
 
     public void Start()
     {
         posY = transform.position.y;
+        button = GetComponent<Button>();
+        button.onClick.AddListener(SelectPlayerCard);
+    }
+
+    private void SelectPlayerCard()
+    {
+        Debug.Log(this.cardData.Value.ToString());
+        Debug.Log(this.cardData.Color.ToString());
+        GameManager.Instance.SelectedCard = cardData;
+        GameHUDManager.Instance.UpdateUI();
     }
 
     public CardImage(CardData cardData, GameObject cardHand)
     {
         this.cardData = cardData;
+        Debug.Log(this.cardData.Value.ToString());
+        Debug.Log(this.cardData.Color.ToString());
 
         Texture2D cardTex = Resources.Load<Texture2D>($"Textures/Cards/{cardData.Value}{cardData.Color}");
 
@@ -37,10 +53,5 @@ public class CardImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     public void OnPointerExit(PointerEventData eventData)
     {
         GetComponent<RectTransform>().DOMove(new Vector3(transform.position.x, posY, 0), 0.3f);
-    }
-
-    public void OnPostRender()
-    {
-        
     }
 }

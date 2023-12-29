@@ -21,22 +21,26 @@ public class CardHandScript : MonoBehaviour
         PlaceCards();
     }
 
-    public void xd()
+    public void DrawCard()
     {
-        AddCard(new CardData(CardColor.Diamonds, CardValue.King, new()
+        if (cardsData.Count >= 5)
+            return;
+        AddCard(new CardData(CardColor.Hearts, CardValue.Queen, new()
             {
-                new CardParameter(ParameterCategory.Trees, 2),
-                new CardParameter(ParameterCategory.GrossSapceIndex, 31),
-            }));
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 10),
+                new CardParameter(ParameterCategory.Trees, 20),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 3),
+            }, ParameterCategory.FloorRatio));
     }
 
-    public void dx()
+    public void SelectCard()
     {
-        RemoveCard(new CardData(CardColor.Diamonds, CardValue.King, new()
+        RemoveCard(new CardData(CardColor.Hearts, CardValue.Queen, new()
             {
-                new CardParameter(ParameterCategory.Trees, 2),
-                new CardParameter(ParameterCategory.GrossSapceIndex, 31),
-            }));
+                new CardParameter(ParameterCategory.GreenSpaceIndex, 10),
+                new CardParameter(ParameterCategory.Trees, 20),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 3),
+            }, ParameterCategory.FloorRatio));
     }
 
     public void AddCard(CardData card)
@@ -96,7 +100,12 @@ public class CardHandScript : MonoBehaviour
                 new CardParameter(ParameterCategory.GreenSpaceIndex, 10),
                 new CardParameter(ParameterCategory.Trees, 20),
                 new CardParameter(ParameterCategory.GrossSapceIndex, 3),
-            }),
+            }, ParameterCategory.FloorRatio),
+            new CardData(CardColor.Diamonds, CardValue.King, new()
+            {
+                new CardParameter(ParameterCategory.Trees, 2),
+                new CardParameter(ParameterCategory.GrossSapceIndex, 31),
+            }, ParameterCategory.DwellingsPerHa),
             new CardData(CardColor.Spades, CardValue.Eight, new()
             {
                 new CardParameter(ParameterCategory.DwellingsPerHa, 1),
@@ -105,16 +114,11 @@ public class CardHandScript : MonoBehaviour
                 new CardParameter(ParameterCategory.GrossSapceIndex, 1),
                 new CardParameter(ParameterCategory.AverageFloors, 1),
                 new CardParameter(ParameterCategory.FloorRatio, 1),
-            }),
-            new CardData(CardColor.Diamonds, CardValue.King, new()
-            {
-                new CardParameter(ParameterCategory.Trees, 2),
-                new CardParameter(ParameterCategory.GrossSapceIndex, 31),
-            }),
+            }, ParameterCategory.Trees),
             new CardData(CardColor.Clubs, CardValue.Seven, new()
             {
                 new CardParameter(ParameterCategory.GreenSpaceIndex, 1),
-            })
+            }, ParameterCategory.Trees)
         };
         SetImages();
     }
@@ -123,8 +127,7 @@ public class CardHandScript : MonoBehaviour
     {
         foreach(CardData card in cardsData)
         {
-            CardImage cardImage = new CardImage(card, this.gameObject);
-            cards.Add(cardImage);
+            cards.Add(new CardImage(card, this.gameObject));
         }
     }
 }

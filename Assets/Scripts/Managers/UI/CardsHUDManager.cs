@@ -36,7 +36,18 @@ public class CardsHUDManager : MonoBehaviour, IHUDManager
 
         CardData card = GameManager.Instance.SelectedCard.Value;
         Texture2D cardTex = Resources.Load<Texture2D>($"Textures/Cards/{card.Value}{card.Color}");
-
+        //if( cardTex != null )
+        //{
+        //    Debug.Log("karta");
+        //}
+        //if ( cardTex == null )
+        //{
+        //    Debug.Log("tekstura");
+        //}
+        //if(selectedCardImage == null)
+        //{
+        //    Debug.Log("karta");
+        //}
         selectedCardImage.sprite = Sprite.Create(cardTex, new(0.0f, 0.0f, cardTex.width, cardTex.height), Vector2.zero);
         nextCardButtonText.text = $"Next card ({GameManager.Instance.CardsLeft} left)";
     }

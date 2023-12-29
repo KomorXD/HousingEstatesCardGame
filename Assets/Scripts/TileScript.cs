@@ -101,6 +101,7 @@ public class TileScript : MonoBehaviour
         cs.PlaceBuilding(adjustedPosition, bs.PlacementRotation);
         cs.PlaceFountain(adjustedPosition, bs.PlacementRotation);
         cs.PlaceTrees(adjustedPosition, bs.PlacementRotation);
+        cs.SpawnSecret(adjustedPosition);
 
         // Xddd
         TileScript neighbourTile = bs.GetNeighbour(this)?.GetComponent<TileScript>();
