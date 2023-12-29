@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +9,10 @@ public class TileScript : MonoBehaviour
     private MeshRenderer meshRenderer;
     private NavMeshSurface surface;
     private TileScript neighbour;
+    private Color originalColor;
+
+    private ParameterCategory? bonusParameter;
+    public ParameterCategory? BonusParam => bonusParameter;
 
     //! Removes building from a tile, removes card's points from player
     public void ClearTile()
@@ -26,7 +31,7 @@ public class TileScript : MonoBehaviour
 
         GameManager.Instance.AvailableBombs--;
 
-        if(GameManager.Instance.AvailableBombs <= 0)
+        if (GameManager.Instance.AvailableBombs <= 0)
         {
             GameHUDManager.Instance.SetBombsInteractive(false);
             GameManager.Instance.BombsSelected = false;
@@ -45,6 +50,22 @@ public class TileScript : MonoBehaviour
     {
         meshRenderer = GetComponent<MeshRenderer>();
         surface = FindObjectOfType<BoardScript>().gameObject.GetComponent<NavMeshSurface>();
+
+        if (Random.Range(0.0f, 1.0f) > 0.9f)
+        {
+            bonusParameter = (ParameterCategory)Random.Range(1, 6);
+            originalColor.r = (int)bonusParameter & 1;
+            originalColor.g = (int)bonusParameter & 2;
+            originalColor.b = (int)bonusParameter & 4;
+            originalColor.a = 1.0f;
+            ColorPlane(originalColor);
+
+            return;
+        }
+
+        originalColor = Color.white;
+        ColorPlane(originalColor);
+        bonusParameter = null;
     }
 
     //! Places a new card, if the tile is free
@@ -65,7 +86,7 @@ public class TileScript : MonoBehaviour
 
         placedCard = Instantiate(placedCard);
         neighbour.placedCard = placedCard;
-        
+
         CardData data = placedCard.GetComponent<CardScript>().Data;
         placedCard.name = $"Card_{data.Color}_{data.Value}";
         placedCard.transform.parent = gameObject.transform;
@@ -80,12 +101,45 @@ public class TileScript : MonoBehaviour
         cs.PlaceBuilding(adjustedPosition, bs.PlacementRotation);
         cs.PlaceFountain(adjustedPosition, bs.PlacementRotation);
         cs.PlaceTrees(adjustedPosition, bs.PlacementRotation);
-        cs.SpawnSecret(adjustedPosition);
-        
-        foreach(var property in cs.Data.Parameters)
+
+        // Xddd
+        TileScript neighbourTile = bs.GetNeighbour(this)?.GetComponent<TileScript>();
+        TileScript[] neighbourTiles = bs.GetNeighoursAround(this).Select(tile => tile.GetComponent<TileScript>()).ToArray();
+        TileScript[] neighbourNeighbourTiles = bs.GetNeighoursAround(neighbourTile).Select(tile => tile.GetComponent<TileScript>()).ToArray();
+
+        foreach (var property in cs.Data.Parameters)
         {
-            GameManager.Instance.GameParameters[property.Category] += property.Value;
+            float value = property.Value;
+
+            if (bonusParameter != null && bonusParameter == property.Category)
+            {
+                value *= 2.0f;
+            }
+
+            if (neighbourTile != null && neighbourTile.bonusParameter == property.Category)
+            {
+                value *= 2.0f;
+            }
+
+            foreach (TileScript ts in neighbourTiles)
+            {
+                if (ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
+                {
+                    value *= 1.25f;
+                }
+            }
+
+            foreach (TileScript ts in neighbourNeighbourTiles)
+            {
+                if (ts.placedCard != neighbourTile.placedCard && ts.placedCard.GetComponent<CardScript>().Data.PreferedNeighbour == property.Category)
+                {
+                    value *= 1.25f;
+                }
+            }
+
+            GameManager.Instance.GameParameters[property.Category] += value;
         }
+        // end of Xdd
 
         SpawnPedestrians();
         surface.BuildNavMesh();
@@ -125,7 +179,7 @@ public class TileScript : MonoBehaviour
         ColorPlane(color);
 
         TileScript neighbourTile = FindObjectOfType<BoardScript>().GetNeighbour(this)?.GetComponent<TileScript>();
-        if(neighbourTile == null)
+        if (neighbourTile == null)
         {
             neighbour = null;
             Debug.Log("Reaching out of the grid");
@@ -139,11 +193,11 @@ public class TileScript : MonoBehaviour
 
     private void OnMouseExit()
     {
-        ColorPlane(Color.white);
+        ColorPlane(originalColor);
 
-        if(neighbour != null)
+        if (neighbour != null)
         {
-            neighbour.ColorPlane(Color.white);
+            neighbour.ColorPlane(neighbour.originalColor);
         }
     }
 }
