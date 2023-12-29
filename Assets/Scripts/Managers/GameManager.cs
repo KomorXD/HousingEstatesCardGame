@@ -129,19 +129,19 @@ public class GameManager : MonoBehaviour
     /**
      * Draws a random card from the deck, if there are any left
      */
-    public void DrawRandomCard()
+    public CardData? DrawRandomCard()
     {
         int randomIdx = Random.Range(0, cardsDeck.Count);
 
         if(randomIdx < 0 || randomIdx >= cardsDeck.Count)
         {
-            return;
+            return null;
         }
 
         CardData card = cardsDeck[randomIdx];
 
         cardsDeck.RemoveAt(randomIdx);
-        selectedCard = card;
+        return card;
     }
 
     /**

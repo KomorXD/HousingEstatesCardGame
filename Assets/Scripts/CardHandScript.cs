@@ -4,15 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-public class CardHandScript : MonoBehaviour
+public class CardHandScript : MonoBehaviour, IHUDManager
 {
+    public static CardHandScript Instance { get; private set; }
+
     public Vector2 position;
     public float handWidth = 200;
     private float cardWidth;
 
-    private CardData selectedCard;
     private List<CardData> cardsData;
-    private List<CardImage> cards = new List<CardImage>();
+    public List<CardImage> cards = new List<CardImage>();
+
+    public void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -45,13 +51,13 @@ public class CardHandScript : MonoBehaviour
 
     public void AddCard(CardData card)
     {
-        foreach (CardImage cardImage in cards)
-        {
-            Destroy(cardImage.card.gameObject);
-        }
-        cards.Clear();
         cardsData.Add(card);
-        SetImages();
+
+        GameObject cardPrefab = Resources.Load<GameObject>("Prefabs/CardImage");
+        cardPrefab = Instantiate(cardPrefab, gameObject.transform);
+        cardPrefab.GetComponent<CardImage>().Init(card);
+        cards.Add(cardPrefab.GetComponent<CardImage>());
+
         PlaceCards();
     }
 
@@ -59,11 +65,17 @@ public class CardHandScript : MonoBehaviour
     {
         foreach (CardImage cardImage in cards)
         {
-            Destroy(cardImage.card.gameObject);
+            Destroy(cardImage.gameObject);
         }
         cards.Clear();
         cardRemove(card);
-        SetImages();
+        foreach (var cardData in cardsData)
+        {
+            GameObject cardPrefab = Resources.Load<GameObject>("Prefabs/CardImage");
+            cardPrefab = Instantiate(cardPrefab, gameObject.transform);
+            cardPrefab.GetComponent<CardImage>().Init(cardData);
+            cards.Add(cardPrefab.GetComponent<CardImage>());
+        }
         PlaceCards();
     }
 
@@ -75,7 +87,7 @@ public class CardHandScript : MonoBehaviour
         for (int i = 0; i < cardsCount; i++)
         {
             Vector3 cardPosition = new Vector3(position.x + cardWidth + i * cardSpace, position.y, 0);
-            cards[i].card.transform.position = cardPosition;
+            cards[i].transform.position = cardPosition;
         }
     }
 
@@ -120,14 +132,33 @@ public class CardHandScript : MonoBehaviour
                 new CardParameter(ParameterCategory.GreenSpaceIndex, 1),
             }, ParameterCategory.Trees)
         };
-        SetImages();
+
+        foreach (var card in cardsData )
+        {
+            GameObject cardPrefab = Resources.Load<GameObject>("Prefabs/CardImage");           
+            cardPrefab = Instantiate(cardPrefab, gameObject.transform);
+            cardPrefab.GetComponent<CardImage>().Init(card);
+            cards.Add(cardPrefab.GetComponent<CardImage>());
+        }
     }
 
-    void SetImages()
+    public void Init()
     {
-        foreach(CardData card in cardsData)
-        {
-            cards.Add(new CardImage(card, this.gameObject));
-        }
+        
+    }
+
+    public void UpdateUI()
+    {
+        
+    }
+
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
+
+    public void SetInteractive(bool interactive)
+    {
+        
     }
 }

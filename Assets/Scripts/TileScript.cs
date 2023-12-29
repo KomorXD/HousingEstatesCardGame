@@ -90,6 +90,7 @@ public class TileScript : MonoBehaviour
         CardData data = placedCard.GetComponent<CardScript>().Data;
         placedCard.name = $"Card_{data.Color}_{data.Value}";
         placedCard.transform.parent = gameObject.transform;
+        CardHandScript.Instance.RemoveCard(data);
 
         CardScript cs = placedCard.GetComponent<CardScript>();
         BoardScript bs = FindObjectOfType<BoardScript>();

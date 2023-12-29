@@ -10,7 +10,6 @@ using UnityEngine.UI;
 
 public class CardImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject card;
     private CardData cardData;
     private float posY;
     private Button button;
@@ -30,17 +29,12 @@ public class CardImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         GameHUDManager.Instance.UpdateUI();
     }
 
-    public CardImage(CardData cardData, GameObject cardHand)
+    public void Init(CardData cardData)
     {
         this.cardData = cardData;
-        Debug.Log(this.cardData.Value.ToString());
-        Debug.Log(this.cardData.Color.ToString());
 
         Texture2D cardTex = Resources.Load<Texture2D>($"Textures/Cards/{cardData.Value}{cardData.Color}");
-
-        GameObject cardPrefab = Resources.Load<GameObject>("Prefabs/CardImage");
-        cardPrefab.GetComponent<Image>().sprite = Sprite.Create(cardTex, new(0.0f, 0.0f, cardTex.width, cardTex.height), Vector2.zero);
-        card = Instantiate(cardPrefab, cardHand.transform);
+        GetComponent<Image>().sprite = Sprite.Create(cardTex, new(0.0f, 0.0f, cardTex.width, cardTex.height), Vector2.zero);
     }
 
     //! On pointer enter event handler, moves card up
