@@ -53,6 +53,7 @@ public class CardScript : MonoBehaviour
     private GameObject fountainObject;
     private GameObject treeObject;
     private List<GameObject> treesObjects = new List<GameObject>();
+    private GameObject secretObject;
 
     //! Intializes data and grabs an apropriate model, based on card's data
     public void Init(CardData data)
@@ -122,6 +123,22 @@ public class CardScript : MonoBehaviour
         return treesObjects;
     }
 
+    //!Has a chance to spawn secret
+    public GameObject SpawnSecret(Vector3 position)
+    {
+        //if (Random.RandomRange(0, 1) > 0) 
+        //    return null;
+
+        GameObject fountainPrefab = Resources.Load<GameObject>("Prefabs/Secret");
+
+        secretObject = Instantiate(fountainPrefab, gameObject.transform);
+        secretObject.name = $"Secret";
+        secretObject.layer = LayerMask.NameToLayer("CardBuilding");
+        secretObject.transform.position = position + new Vector3(Random.RandomRange(-100, 100), 1.0f, Random.RandomRange(-100, 100));
+
+        return secretObject;
+    }
+
     //! Despawns objects on card
     public void Despawn()
     {
@@ -129,5 +146,6 @@ public class CardScript : MonoBehaviour
         DestroyImmediate(fountainObject, true);
         foreach(var tree in treesObjects)
             DestroyImmediate(tree, true);
+        DestroyImmediate(secretObject, true);
     }
 }
