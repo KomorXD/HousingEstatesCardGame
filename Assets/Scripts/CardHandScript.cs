@@ -83,7 +83,10 @@ public class CardHandScript : MonoBehaviour, IHUDManager
     {
         int cardsCount = cards.Count;
 
-        float cardSpace = (handWidth - 2 * cardWidth) / (cardsCount - 1);
+        float cardSpace = 0;
+        if (cardsCount >= 2)
+            cardSpace = (handWidth - 2 * cardWidth) / (cardsCount - 1);
+
         for (int i = 0; i < cardsCount; i++)
         {
             Vector3 cardPosition = new Vector3(position.x + cardWidth + i * cardSpace, position.y, 0);
